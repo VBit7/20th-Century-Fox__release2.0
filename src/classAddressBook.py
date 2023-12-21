@@ -127,6 +127,7 @@ class Record:
         self.phones = []
         self.emails = []
         self.address = None
+        self.notes = None
         self.birthday = Birthday(birthday) if birthday else birthday
 
     # Adding phone numbers
@@ -205,7 +206,8 @@ class Record:
             "phones": [str(phone) for phone in self.phones],
             "emails": [str(email) for email in self.emails],
             "address": str(self.address) if self.address else "not set",
-            "birthday": str(self.birthday) if self.birthday else "not set"
+            "birthday": str(self.birthday) if self.birthday else "not set",
+            "notes": str(self.notes) if self.notes else "",
         }
 
     def __str__(self):
@@ -213,8 +215,9 @@ class Record:
         email_addresses = ', '.join(str(email) for email in self.emails)
         address = self.address if self.address else "not set"
         birthday = self.birthday if self.birthday else "not set"
+        notes = self.notes if self.notes else ""
 
-        return f'{self.name.name} - Phones: {phone_numbers}, Emails: {email_addresses}, Address: {address}, Birthday: {birthday}'
+        return f'{self.name.name} - Phones: {phone_numbers}, Emails: {email_addresses}, Address: {address}, Birthday: {birthday}, Note: {notes}'
 
 
 class AddressBookIterator:
@@ -289,6 +292,9 @@ class AddressBook(UserDict):
 
                     if data["birthday"] != "not set":
                         record.add_birthday(data["birthday"])
+
+                    if "notes" in data:
+                        record.notes = data["notes"]
 
                     self.data[name] = record
 
