@@ -1124,7 +1124,8 @@ class DeleteWindow(tk.Toplevel):
         self.delete_email_button.pack(side=tk.LEFT, padx=10)
 
     def delete_contact(self):
-        messagebox.showinfo("Delete Contact", "Deleting contact functionality will be implemented here.")
+        delete_contact_window = DeleteContactWindow(self, address_book)
+        # messagebox.showinfo("Delete Contact", "Deleting contact functionality will be implemented here.")
 
     def delete_phone(self):
         delete_phone_window = DeletePhoneWindow(self, address_book)
@@ -1133,6 +1134,57 @@ class DeleteWindow(tk.Toplevel):
     def delete_email(self):
         delete_email_window = DeleteEmailWindow(self, address_book)
         # messagebox.showinfo("Delete Email", "Deleting email functionality will be implemented here.")
+
+
+class DeleteContactWindow(tk.Toplevel):
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
+        self.title("Delete Contact")
+        self.iconbitmap('./img/icon.ico')
+
+        # Setting the window position to the center of the screen
+        window_width = 280
+        window_height = 100
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+        self.address_book = address_book
+
+        # Combo for selecting an existing contact
+        self.select_contact_label = tk.Label(self, text="Select Contact:")
+        self.select_contact_label.grid(row=0, column=0, padx=10, pady=5, sticky=tk.E)
+
+        existing_contacts = list(self.address_book.data.keys())
+        self.selected_contact_var = tk.StringVar()
+        self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=20)
+        self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Button to delete contact or cancel
+        self.delete_button = tk.Button(self, text="Delete", command=self.delete_contact, width=10, height=1)
+        self.delete_button.grid(row=1, column=0, padx=10, pady=10, sticky=tk.W)
+
+        self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+        self.cancel_button.grid(row=1, column=1, padx=10, pady=10, sticky=tk.E)
+
+    def delete_contact(self):
+        selected_contact = self.selected_contact_var.get()
+
+        if selected_contact:
+            # Delete the selected contact from the address book
+            self.address_book.delete(selected_contact)
+
+            messagebox.showinfo("Delete Contact", "Contact deletion successfully completed.")
+
+            # Save changes to the address book
+            self.address_book.save_to_json("address_book.json")
+
+            # Close the window
+            self.destroy()
+        else:
+            messagebox.showerror("Error", "Selected contact not found")
 
 
 

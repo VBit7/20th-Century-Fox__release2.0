@@ -20,15 +20,6 @@
       "address": "Kyiv",
       "birthday": "01.01.1990"
    },
-   "User": {
-      "name": "User",
-      "phones": [
-         "1234567890"
-      ],
-      "emails": [],
-      "address": "Anywhere",
-      "birthday": "01.01.2001"
-   },
    "NewUser-2": {
       "name": "NewUser-2",
       "phones": [
