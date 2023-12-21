@@ -27,8 +27,8 @@ class MainApplication(tk.Tk):
         # label = tk.Label(self, text="  Address Book Management:  ", font=("Helvetica", 12))
         label = tk.Label(self, text="ADDRESS BOOK MANAGEMENT:", font=("Calibri", 13))
         label.grid(row=0, column=0, columnspan=4, pady=10)
-        label = tk.Label(self, text="NOTES MANAGEMENT:", font=("Calibri", 13))
-        label.grid(row=6, column=0, columnspan=4, pady=10)
+        # label = tk.Label(self, text="NOTES MANAGEMENT:", font=("Calibri", 13))
+        # label.grid(row=6, column=0, columnspan=4, pady=10)
         label = tk.Label(self, text="OTHER ACTIONS:", font=("Calibri", 13))
         label.grid(row=9, column=0, columnspan=4, pady=10)
 
@@ -110,32 +110,32 @@ class MainApplication(tk.Tk):
         # btn_delete_birthday.grid(row=5, column=3, sticky="e", padx=PADX, pady=PADY)
 
         # For "Add" Notes. Group 1:
-        btn_add_note = tk.Button(self, text="Add note", command=self.show_add_note_window, width=WIDTH, height=HEIGHT)
-        btn_add_tag = tk.Button(self, text="Add tag", command=self.show_add_tag_window, width=WIDTH, height=HEIGHT)
+        # btn_add_note = tk.Button(self, text="Add note", command=self.show_add_note_window, width=WIDTH, height=HEIGHT)
+        # btn_add_tag = tk.Button(self, text="Add tag", command=self.show_add_tag_window, width=WIDTH, height=HEIGHT)
 
-        btn_add_note.grid(row=7, column=0, sticky="w", padx=PADX, pady=PADY)
-        btn_add_tag.grid(row=8, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_note.grid(row=7, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_tag.grid(row=8, column=0, sticky="w", padx=PADX, pady=PADY)
 
         # For "Search" Notes. Group 2:
-        btn_search_note = tk.Button(self, text="Search note", command=self.show_search_note_window, width=WIDTH, height=HEIGHT)
-        btn_search_tag = tk.Button(self, text="Search tag", command=self.show_search_tag_window, width=WIDTH, height=HEIGHT)
+        # btn_search_note = tk.Button(self, text="Search note", command=self.show_search_note_window, width=WIDTH, height=HEIGHT)
+        # btn_search_tag = tk.Button(self, text="Search tag", command=self.show_search_tag_window, width=WIDTH, height=HEIGHT)
 
-        btn_search_note.grid(row=7, column=1, sticky="e", padx=PADX, pady=PADY)
-        btn_search_tag.grid(row=8, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_note.grid(row=7, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_tag.grid(row=8, column=1, sticky="e", padx=PADX, pady=PADY)
 
         # For "Change" Notes. Group 3:
-        btn_change_note = tk.Button(self, text="Change note", command=self.show_change_note_window, width=WIDTH, height=HEIGHT)
-        btn_change_tag = tk.Button(self, text="Change tag", command=self.show_change_tag_window, width=WIDTH, height=HEIGHT)
+        # btn_change_note = tk.Button(self, text="Change note", command=self.show_change_note_window, width=WIDTH, height=HEIGHT)
+        # btn_change_tag = tk.Button(self, text="Change tag", command=self.show_change_tag_window, width=WIDTH, height=HEIGHT)
 
-        btn_change_note.grid(row=7, column=2, sticky="e", padx=PADX, pady=PADY)
-        btn_change_tag.grid(row=8, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_note.grid(row=7, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_tag.grid(row=8, column=2, sticky="e", padx=PADX, pady=PADY)
 
         # For "Delete" Notes. Group 4:
-        btn_delete_note = tk.Button(self, text="Delete note", command=self.show_delete_note_window, width=WIDTH, height=HEIGHT)
-        btn_delete_tag = tk.Button(self, text="Delete tag", command=self.show_delete_tag_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_note = tk.Button(self, text="Delete note", command=self.show_delete_note_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_tag = tk.Button(self, text="Delete tag", command=self.show_delete_tag_window, width=WIDTH, height=HEIGHT)
 
-        btn_delete_note.grid(row=7, column=3, sticky="e", padx=PADX, pady=PADY)
-        btn_delete_tag.grid(row=8, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_note.grid(row=7, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_tag.grid(row=8, column=3, sticky="e", padx=PADX, pady=PADY)
 
         # For Other. "Sorting Files":
         btn_sorting_files = tk.Button(self, text="Sorting files", command=self.show_sorting_files_window, width=WIDTH, height=HEIGHT)
@@ -409,7 +409,7 @@ class ChangeContactWindow(tk.Toplevel):
 
         # Setting the window position to the center of the screen
         window_width = 400
-        window_height = 300
+        window_height = 400
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
         x = (screen_width - window_width) // 2
@@ -483,14 +483,21 @@ class ChangeContactWindow(tk.Toplevel):
         self.new_birthday_entry = tk.Entry(self, textvariable=self.new_birthday_var, width=33)
         self.new_birthday_entry.grid(row=7, column=1, padx=10, pady=5, sticky=tk.W)
 
+        # Text field for entering notes
+        self.notes_label = tk.Label(self, text="Notes:")
+        self.notes_label.grid(row=8, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.notes_text = tk.Text(self, wrap=tk.WORD, width=25, height=5)
+        self.notes_text.grid(row=8, column=1, padx=10, pady=5, sticky=tk.W)
+
 
 
         # Buttons to save changes or cancel
         self.save_button = tk.Button(self, text="Save Changes", command=self.save_changes, width=15, height=1)
-        self.save_button.grid(row=8, column=0, padx=10, pady=10, sticky=tk.W)
+        self.save_button.grid(row=9, column=0, padx=10, pady=10, sticky=tk.W)
 
         self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=15, height=1)
-        self.cancel_button.grid(row=8, column=1, padx=10, pady=10, sticky=tk.E)
+        self.cancel_button.grid(row=9, column=1, padx=10, pady=10, sticky=tk.E)
 
         # Bind the event to update phone numbers based on the selected contact
         self.contact_combobox.bind("<<ComboboxSelected>>", self.update_contact_details)
@@ -528,6 +535,10 @@ class ChangeContactWindow(tk.Toplevel):
                 # Update birthday
                 self.new_birthday_var.set(str(contact.birthday) if contact.birthday else "")
 
+                # Update notes
+                self.notes_text.delete("1.0", tk.END)
+                self.notes_text.insert(tk.END, contact.notes if contact.notes else "")
+
     def save_changes(self):
         selected_contact = self.selected_contact_var.get()
         new_name = self.new_name_var.get()
@@ -561,6 +572,10 @@ class ChangeContactWindow(tk.Toplevel):
             # Update the birthday if a new birthday is provided
             if new_birthday:
                 contact.add_birthday(new_birthday)
+
+            # Update notes
+            notes = self.notes_text.get("1.0", tk.END).strip()
+            contact.notes = notes
 
             # Add the updated contact back to the address book
             self.address_book.add_record(contact)

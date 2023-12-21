@@ -42,5 +42,13 @@
       "address": "City",
       "birthday": "not set",
       "notes": ""
+   },
+   "UserNote": {
+      "name": "UserNote",
+      "phones": [],
+      "emails": [],
+      "address": "not set",
+      "birthday": "not set",
+      "notes": "note-2"
    }
 }
