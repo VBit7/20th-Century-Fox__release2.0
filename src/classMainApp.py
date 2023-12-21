@@ -10,30 +10,24 @@ class MainApplication(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("20th Century Fox Presents")
         self.iconbitmap('./img/icon.ico')
-        self.width = 800
+        self.width = 1000
         self.height = 600
         self.geometry(f"{self.width}x{self.height}")
         self.center_window()
 
-        # Add lines
-        # canvas = tk.Canvas(self, height=1, bg="black")
-        # canvas.grid(row=0, column=0, columnspan=4, pady=5, sticky="we")
-        # canvas = tk.Canvas(self, height=1, bg="black")
-        # canvas.grid(row=6, column=0, columnspan=4, pady=20, sticky="we")
-        # canvas = tk.Canvas(self, height=1, bg="black")
-        # canvas.grid(row=9, column=0, columnspan=4, pady=20, sticky="we")
+        # Ініціалізуємо address_book
+        self.address_book = address_book
 
         # Add labels
-        # label = tk.Label(self, text="  Address Book Management:  ", font=("Helvetica", 12))
         label = tk.Label(self, text="ADDRESS BOOK MANAGEMENT:", font=("Calibri", 13))
         label.grid(row=0, column=0, columnspan=4, pady=10)
-        # label = tk.Label(self, text="NOTES MANAGEMENT:", font=("Calibri", 13))
-        # label.grid(row=6, column=0, columnspan=4, pady=10)
-        label = tk.Label(self, text="OTHER ACTIONS:", font=("Calibri", 13))
-        label.grid(row=9, column=0, columnspan=4, pady=10)
+        # label = tk.Label(self, text="OTHER ACTIONS:", font=("Calibri", 13))
+        # label.grid(row=9, column=0, columnspan=4, pady=10)
 
         # Add buttons
         self.add_buttons()
+        # Add Treeview
+        self.add_treeview()        
 
     def center_window(self):        
         self.update_idletasks()
@@ -57,22 +51,86 @@ class MainApplication(tk.Tk):
         btn_add_contact = tk.Button(self, text="Add", command=lambda: AddContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
         btn_add_contact.grid(row=1, column=0, sticky="w", padx=PADX, pady=PADY)
 
-        # For "Search". Button 2:
-        btn_search_contact = tk.Button(self, text="Search", command=lambda: SearchContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
-        btn_search_contact.grid(row=1, column=1, sticky="e", padx=PADX, pady=PADY)
-
-        # For "Change". Button 3:
+        # For "Change". Button 2:
         btn_change_contact = tk.Button(self, text="Change", command=lambda: ChangeContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
-        btn_change_contact.grid(row=1, column=2, sticky="e", padx=PADX, pady=PADY)
+        btn_change_contact.grid(row=1, column=1, sticky="e", padx=PADX, pady=PADY)
 
-        # For "Delete". Button 4:
+        # For "Delete". Button 3:
         btn_delete_contact = tk.Button(self, text="Delete", command=lambda: DeleteWindow(self, address_book), width=WIDTH, height=HEIGHT)
-        btn_delete_contact.grid(row=1, column=3, sticky="e", padx=PADX, pady=PADY)
+        btn_delete_contact.grid(row=1, column=2, sticky="e", padx=PADX, pady=PADY)
 
-        # For Other. "Sorting Files":
+        # For Other. "Sorting Files". Button 4:
         btn_sorting_files = tk.Button(self, text="Sorting files", command=self.show_sorting_files_window, width=WIDTH, height=HEIGHT)
+        btn_sorting_files.grid(row=1, column=3, sticky="e", padx=PADX, pady=PADY)
+        
 
-        btn_sorting_files.grid(row=10, column=0, sticky="w", padx=PADX, pady=PADY)
+    def add_treeview(self):
+        columns_info = {
+            "Name": {"text": "Name", "width": 150},
+            "Phone": {"text": "Phone", "width": 150},
+            "Email": {"text": "Email", "width": 150},
+            "Address": {"text": "Address", "width": 150},
+            "Birthday": {"text": "Birthday", "width": 150},
+            "Notes": {"text": "Notes", "width": 228},
+        }
+
+        tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
+
+        for col, info in columns_info.items():
+            tree.heading(col, text=info["text"])
+            tree.column(col, width=info["width"])
+
+        tree.grid(row=2, column=0, columnspan=4, padx=10, pady=10)
+        tree.config(height=20)
+
+
+        # Add search entry and button
+        label = tk.Label(self, text="Enter search string:")
+        label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.E)
+
+        search_var = tk.StringVar()
+        search_entry = tk.Entry(self, textvariable=search_var, width=40)
+        search_entry.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
+
+        btn_search = tk.Button(self, text="Search", command=lambda: self.search_contacts(tree, search_var.get()), width=16, height=1)
+        btn_search.grid(row=3, column=2, padx=10, pady=5, sticky=tk.W)
+
+
+
+        # search_var = tk.StringVar()
+        # search_entry = tk.Entry(self, textvariable=search_var, width=40, )
+        # search_entry.grid(row=4, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
+        # search_button.grid(row=5, column=0, columnspan=2, pady=5)
+
+
+
+
+    def search_contacts(self, tree, search_string):
+        # Очистити вміст Treeview перед новим пошуком
+        tree.delete(*tree.get_children())
+
+        found_contacts = self.address_book.find_data_in_book(search_string)
+
+        # Вивести знайдені контакти в Treeview
+        if found_contacts:
+            for record in found_contacts:
+                record_data = {
+                    "Name": record.name.name,
+                    "Phone": ", ".join(phone.value for phone in record.phones),
+                    "Email": ", ".join(email.value for email in record.emails),
+                    # "Address": record.address.address if record.address else "N/A",
+                    "Address": record.address if record.address else "N/A",
+                    "Birthday": str(record.birthday) if record.birthday else "N/A",
+                    "Notes": record.notes if record.notes else "N/A",
+                }
+                tree.insert("", "end", text="ID", values=(record_data["Name"], record_data["Phone"],
+                                                            record_data["Email"], record_data["Address"],
+                                                            record_data["Birthday"], record_data["Notes"]))
+        else:
+            # Якщо не знайдено жодного запису, вивести повідомлення
+            print("No results found")
 
 
     # Other - "Sorting files"
@@ -221,70 +279,119 @@ class AddContactWindow(tk.Toplevel):
 
 
 
-class SearchContactWindow(tk.Toplevel):
-    def __init__(self, parent, address_book):
-        super().__init__(parent)
-        self.title("Search Contact")
-        self.iconbitmap('./img/icon.ico')
+# class SearchContactWindow(tk.Toplevel):
+#     def __init__(self, parent, address_book):
+#         super().__init__(parent)
+#         self.title("Search Contact")
+#         self.iconbitmap('./img/icon.ico')
 
-        # Setting the window position to the center of the screen
-        window_width = 1075
-        window_height = 320
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
-        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
+#         # Setting the window position to the center of the screen
+#         window_width = 1350  #1075
+#         window_height = 320
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
+#         self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 
-        self.address_book = address_book
+#         self.address_book = address_book
 
-        self.tree = ttk.Treeview(self)
-        self.tree["columns"] = ("Name", "Phone", "Email", "Address", "Birthday")
-        self.tree.heading("#0", text="ID")
-        self.tree.column("#0", width=50)
-        self.tree.heading("Name", text="Name")
-        self.tree.heading("Phone", text="Phone")
-        self.tree.heading("Email", text="Email")
-        self.tree.heading("Address", text="Address")
-        self.tree.heading("Birthday", text="Birthday")
-        self.tree.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
+#         self.tree = ttk.Treeview(self)
+#         self.tree["columns"] = ("Name", "Phone", "Email", "Address", "Birthday", "Notes")
+#         self.tree.heading("#0", text="ID")
+#         self.tree.column("#0", width=50)
+#         self.tree.heading("Name", text="Name")
+#         self.tree.heading("Phone", text="Phone")
+#         self.tree.heading("Email", text="Email")
+#         self.tree.heading("Address", text="Address")
+#         self.tree.heading("Birthday", text="Birthday")
+#         self.tree.heading("Notes", text="Notes")
+#         self.tree.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
 
-        self.label = tk.Label(self, text="Enter search string:")
-        self.label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
+#         self.label = tk.Label(self, text="Enter search string:")
+#         self.label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
 
-        self.search_var = tk.StringVar()
-        self.search_entry = tk.Entry(self, textvariable=self.search_var, width=40, )
-        self.search_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
+#         self.search_var = tk.StringVar()
+#         self.search_entry = tk.Entry(self, textvariable=self.search_var, width=40, )
+#         self.search_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
 
-        self.search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
-        self.search_button.grid(row=2, column=0, columnspan=2, pady=5)
+#         self.search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
+#         self.search_button.grid(row=2, column=0, columnspan=2, pady=5)
 
-    def search_contacts(self):
-    # Очистити вміст Treeview перед новим пошуком
-        self.tree.delete(*self.tree.get_children())
+#     def search_contacts(self):
+#     # Clear Treeview content before a new search
+#         self.tree.delete(*self.tree.get_children())
 
-        search_string = self.search_var.get()
+#         search_string = self.search_var.get()
 
-        found_contacts = self.address_book.find_data_in_book(search_string)
+#         found_contacts = self.address_book.find_data_in_book(search_string)
 
-        # Вивести знайдені контакти в Treeview
-        if found_contacts:
-            for record in found_contacts:
-                record_data = {
-                    "Name": record.name.name,
-                    "Phone": ", ".join(phone.value for phone in record.phones),
-                    "Email": ", ".join(email.value for email in record.emails),
-                    # "Address": record.address.address if record.address else "N/A",
-                    "Address": record.address if record.address else "N/A",
-                    "Birthday": str(record.birthday) if record.birthday else "N/A"
-                }
-                self.tree.insert("", "end", text="ID", values=(record_data["Name"], record_data["Phone"],
-                                                                record_data["Email"], record_data["Address"],
-                                                                record_data["Birthday"]))
-        else:
-            # Якщо не знайдено жодного запису, вивести повідомлення
-            print("No results found")
+#         # Display found contacts in Treeview
+#         if found_contacts:
+#             for record in found_contacts:
+#                 record_data = {
+#                     "Name": record.name.name,
+#                     "Phone": ", ".join(phone.value for phone in record.phones),
+#                     "Email": ", ".join(email.value for email in record.emails),
+#                     "Address": record.address if record.address else "N/A",
+#                     "Birthday": str(record.birthday) if record.birthday else "N/A",
+#                     "Notes": record.notes if record.notes else "N/A",
+#                 }
+#                 self.tree.insert("", "end", text="ID", values=(record_data["Name"], record_data["Phone"],
+#                                                                 record_data["Email"], record_data["Address"],
+#                                                                 record_data["Birthday"], record_data["Notes"]))
+#         else:
+#             # If no records are found, print a message
+#             print("No results found")
+
+
+# --- For Show ---
+# class ContactTableWindow(tk.Toplevel):
+#     def __init__(self, search_contact_window, contact_data, *args, **kwargs):
+#         tk.Toplevel.__init__(self, search_contact_window, *args, **kwargs)
+#         self.title("Contact Information")
+#         self.iconbitmap('./img/icon.ico')
+#         self.width = 1350
+#         self.height = 300
+#         self.geometry(f"{self.width}x{self.height}")
+#         self.center_window()
+
+#         columns_info = {
+#             "user": {"text": "User", "width": 50},
+#             "phones": {"text": "Phones", "width": 50},
+#             "emails": {"text": "Emails", "width": 100},
+#             "address": {"text": "Address", "width": 200},
+#             "birthday": {"text": "Birthday", "width": 150},
+#             "notes": {"text": "Notes", "width": 200}
+#         }
+
+#         tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
+
+#         for col, info in columns_info.items():
+#             tree.heading(col, text=info["text"])
+#             tree.column(col, width=info["width"], stretch=tk.NO)
+
+#         # Adding data to the table
+#         tree.insert("", "end", values=(contact_data["user"], ", ".join(contact_data["phones"]),
+#                                        ", ".join(contact_data["emails"]), contact_data["address"],
+#                                        contact_data["birthday"], contact_data["notes"]))
+
+
+#         tree.pack(padx=10, pady=10)
+
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
+
+#         self.geometry(f'+{x}+{y}')
+
 
 
 
@@ -786,126 +893,48 @@ class SortingFilesWindow(tk.Toplevel):
 
 
 
-# --- For Show ---
-class ContactTableWindow(tk.Toplevel):
-    def __init__(self, search_contact_window, contact_data, *args, **kwargs):
-        tk.Toplevel.__init__(self, search_contact_window, *args, **kwargs)
-        self.title("Contact Information")
-        self.iconbitmap('./img/icon.ico')
-        self.width = 950
-        self.height = 300
-        self.geometry(f"{self.width}x{self.height}")
-        self.center_window()
-
-        columns_info = {
-            "user": {"text": "User", "width": 150},
-            "phones": {"text": "Phones", "width": 200},
-            "emails": {"text": "Emails", "width": 200},
-            "address": {"text": "Address", "width": 200},
-            "birthday": {"text": "Birthday", "width": 150}
-        }
-
-        tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
-
-        for col, info in columns_info.items():
-            tree.heading(col, text=info["text"])
-            tree.column(col, width=info["width"])
-
-        # Adding data to the table
-        tree.insert("", "end", values=(contact_data["user"], ", ".join(contact_data["phones"]),
-                                       ", ".join(contact_data["emails"]), contact_data["address"],
-                                       contact_data["birthday"]))
-
-        tree.pack(padx=10, pady=10)
-
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
-
-        self.geometry(f'+{x}+{y}')
 
 
-class NoteTableWindow(tk.Toplevel):
-    def __init__(self, search_note_window, note_data, *args, **kwargs):
-        tk.Toplevel.__init__(self, search_note_window, *args, **kwargs)
-        self.title("Note Information")
-        self.iconbitmap('./img/icon.ico')
-        self.width = 750
-        self.height = 300
-        self.geometry(f"{self.width}x{self.height}")
-        self.center_window()
+# class NoteTableWindow(tk.Toplevel):
+#     def __init__(self, search_note_window, note_data, *args, **kwargs):
+#         tk.Toplevel.__init__(self, search_note_window, *args, **kwargs)
+#         self.title("Note Information")
+#         self.iconbitmap('./img/icon.ico')
+#         self.width = 750
+#         self.height = 300
+#         self.geometry(f"{self.width}x{self.height}")
+#         self.center_window()
 
-        columns_info = {
-            "user": {"text": "User", "width": 150},
-            "note": {"text": "Notes", "width": 400},
-            "tags": {"text": "Tags", "width": 200},
-        }
+#         columns_info = {
+#             "user": {"text": "User", "width": 150},
+#             "note": {"text": "Notes", "width": 400},
+#             "tags": {"text": "Tags", "width": 200},
+#         }
 
-        tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
+#         tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
 
-        for col, info in columns_info.items():
-            tree.heading(col, text=info["text"])
-            tree.column(col, width=info["width"])
+#         for col, info in columns_info.items():
+#             tree.heading(col, text=info["text"])
+#             tree.column(col, width=info["width"])
 
-        # Adding data to the table
-        tree.insert("", "end", values=(note_data["user"], note_data["note"],
-                                       ", ".join(note_data["tags"])))
+#         # Adding data to the table
+#         tree.insert("", "end", values=(note_data["user"], note_data["note"],
+#                                        ", ".join(note_data["tags"])))
 
-        tree.pack(padx=10, pady=10)
+#         tree.pack(padx=10, pady=10)
 
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
 
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
 
-        self.geometry(f'+{x}+{y}')
+#         self.geometry(f'+{x}+{y}')
 
 
 
 address_book = AddressBook()
-
-if __name__ == "__main__":
-    # app = MainApplication()
-    # app.mainloop()
-
-    # Створення нової адресної книги
-    # Якщо файл address_book.json існує, він автоматично буде завантажений
-    # book = AddressBook()
-
-    # # Додаємо запис в адресну книгу з рандомними іменем, номером телефону та датою народження
-    # user_number = random.randint(100, 999)
-    # data_record = Record(f'User-{user_number}')
-    # phone_number = ''.join(map(str, [random.randint(0, 9) for _ in range(10)]))
-    # data_record.add_phone(phone_number)
-    # data_record.add_birthday(generate_random_birthdate())
-    # book.add_record(data_record)
-
-    # # # Пошук в адресній книзі по імені користувача
-    # # print("Search by username:")
-    # # book.find_data_in_book("John")
-    # # # Пошук в адресній книзі по номеру телефона
-    # # print("Search by phone number:")
-    # # book.find_data_in_book("0987654321")
-
-    # # Пошук в адресній книзі по частині імені користувача
-    # print("Search by partial username")
-    # book.find_data_in_book("Us")
-    # # Пошук в адресній книзі по частині номеру телефона
-    # print("Search by partial phone number")
-    # book.find_data_in_book("4055")
-
-    # # Зберігаємо адресну книгу в файл
-    # book.save_to_json("address_book.json")
-
-    print("Good bye!")
