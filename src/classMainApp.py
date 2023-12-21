@@ -68,7 +68,8 @@ class MainApplication(tk.Tk):
         # btn_add_birthday.grid(row=5, column=0, sticky="w", padx=PADX, pady=PADY)
 
         # For "Search" Contacts. Group 2:
-        btn_search_contact = tk.Button(self, text="Search contact", command=self.show_search_contact_window, width=WIDTH, height=HEIGHT)
+        # btn_search_contact = tk.Button(self, text="Search contact", command=self.show_search_contact_window, width=WIDTH, height=HEIGHT)
+        btn_search_contact = tk.Button(self, text="Search", command=lambda: SearchContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
         # btn_search_phone = tk.Button(self, text="Search phone", command=self.search_phone, width=WIDTH, height=HEIGHT)
         # btn_search_email = tk.Button(self, text="Search email", command=self.search_email, width=WIDTH, height=HEIGHT)
         # btn_search_address = tk.Button(self, text="Search address", command=self.search_address, width=WIDTH, height=HEIGHT)
@@ -630,90 +631,143 @@ class AddBirthdayWindow(tk.Toplevel):
 
 
 
-
 class SearchContactWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
         self.title("Search Contact")
-        self.iconbitmap('./img/icon.ico')
+        self.address_book = address_book
 
-        self.user_var = tk.StringVar()
-        self.phone_var = tk.StringVar()
-        self.email_var = tk.StringVar()
-        self.address_var = tk.StringVar()
-        self.date_var = tk.StringVar()
+        self.tree = ttk.Treeview(self)
+        self.tree["columns"] = ("Name", "Phone", "Email", "Address", "Birthday")
+        self.tree.heading("#0", text="ID")
+        self.tree.column("#0", width=50)
+        self.tree.heading("Name", text="Name")
+        self.tree.heading("Phone", text="Phone")
+        self.tree.heading("Email", text="Email")
+        self.tree.heading("Address", text="Address")
+        self.tree.heading("Birthday", text="Birthday")
+        self.tree.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
 
-        # Text input fields
-        user_label = tk.Label(self, text="User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
+        self.label = tk.Label(self, text="Enter search string:")
+        self.label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
 
-        phone_label = tk.Label(self, text="Phone:")
-        phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
+        self.search_var = tk.StringVar()
+        self.search_entry = tk.Entry(self, textvariable=self.search_var)
+        self.search_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
 
-        email_label = tk.Label(self, text="Email:")
-        email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
+        self.search_button = tk.Button(self, text="Search", command=self.search_contacts)
+        self.search_button.grid(row=2, column=0, columnspan=2, pady=5)
 
-        address_label = tk.Label(self, text="Address:")
-        address_entry = tk.Entry(self, width=30, textvariable=self.address_var)
+    def search_contacts(self):
+    # Очистити вміст Treeview перед новим пошуком
+        self.tree.delete(*self.tree.get_children())
 
-        # Date entry field
-        date_label = tk.Label(self, text="Birthday:")
-        date_entry = tk.Entry(self, width=30, textvariable=self.date_var)
+        search_string = self.search_var.get()
 
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
+        found_contacts = self.address_book.find_data_in_book(search_string)
 
-        phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        phone_entry.grid(row=1, column=1, padx=10, pady=5)
+        # Вивести знайдені контакти в Treeview
+        if found_contacts:
+            for record in found_contacts:
+                record_data = {
+                    "Name": record.name.name,
+                    "Phone": ", ".join(phone.value for phone in record.phones),
+                    "Email": ", ".join(email.value for email in record.emails),
+                    # "Address": record.address.address if record.address else "N/A",
+                    "Address": record.address if record.address else "N/A",
+                    "Birthday": str(record.birthday) if record.birthday else "N/A"
+                }
+                self.tree.insert("", "end", text="ID", values=(record_data["Name"], record_data["Phone"],
+                                                                record_data["Email"], record_data["Address"],
+                                                                record_data["Birthday"]))
+        else:
+            # Якщо не знайдено жодного запису, вивести повідомлення
+            print("No results found")
 
-        email_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
-        email_entry.grid(row=2, column=1, padx=10, pady=5)
 
-        address_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
-        address_entry.grid(row=3, column=1, padx=10, pady=5)
+# class SearchContactWindow(tk.Toplevel):
+#     def __init__(self, main_app, *args, **kwargs):
+#         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
 
-        date_label.grid(row=4, column=0, padx=10, pady=5, sticky="w")
-        date_entry.grid(row=4, column=1, padx=10, pady=5)
+#         self.title("Search Contact")
+#         self.iconbitmap('./img/icon.ico')
 
-        # Buttons "Search" and "Cancel"
-        save_button = tk.Button(self, text="Search", command=self.show_contact_table, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+#         self.user_var = tk.StringVar()
+#         self.phone_var = tk.StringVar()
+#         self.email_var = tk.StringVar()
+#         self.address_var = tk.StringVar()
+#         self.date_var = tk.StringVar()
 
-        save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
+#         # Text input fields
+#         user_label = tk.Label(self, text="User Name:")
+#         user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
 
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
+#         phone_label = tk.Label(self, text="Phone:")
+#         phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
 
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
+#         email_label = tk.Label(self, text="Email:")
+#         email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
 
-        self.geometry(f'+{x}+{y}')
+#         address_label = tk.Label(self, text="Address:")
+#         address_entry = tk.Entry(self, width=30, textvariable=self.address_var)
 
-    def show_contact_table(self):
-        user = self.user_var.get()
-        phone = self.phone_var.get()
-        email = self.email_var.get()
-        address = self.address_var.get()
-        date = self.date_var.get()
+#         # Date entry field
+#         date_label = tk.Label(self, text="Birthday:")
+#         date_entry = tk.Entry(self, width=30, textvariable=self.date_var)
 
-        # <--  Here, the logic for "Search Contact"
+#         # Placing widgets on a window
+#         user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+#         user_entry.grid(row=0, column=1, padx=10, pady=5)
+
+#         phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+#         phone_entry.grid(row=1, column=1, padx=10, pady=5)
+
+#         email_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+#         email_entry.grid(row=2, column=1, padx=10, pady=5)
+
+#         address_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+#         address_entry.grid(row=3, column=1, padx=10, pady=5)
+
+#         date_label.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+#         date_entry.grid(row=4, column=1, padx=10, pady=5)
+
+#         # Buttons "Search" and "Cancel"
+#         save_button = tk.Button(self, text="Search", command=self.show_contact_table, width=10, height=1)
+#         cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+
+#         save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
+#         cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
+
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
+
+#         self.geometry(f'+{x}+{y}')
+
+#     def show_contact_table(self):
+#         user = self.user_var.get()
+#         phone = self.phone_var.get()
+#         email = self.email_var.get()
+#         address = self.address_var.get()
+#         date = self.date_var.get()
+
+#         # <--  Here, the logic for "Search Contact"
         
-        contact_data = {
-            "user": user,
-            "phones": ["123456789", "987654321"],
-            "emails": ["user@example.com"],
-            "address": "123 Main St",
-            "birthday": "01/01/2000"
-        }
+#         contact_data = {
+#             "user": user,
+#             "phones": ["123456789", "987654321"],
+#             "emails": ["user@example.com"],
+#             "address": "123 Main St",
+#             "birthday": "01/01/2000"
+#         }
 
-        ContactTableWindow(self, contact_data)
+#         ContactTableWindow(self, contact_data)
 
 
 

@@ -18,7 +18,7 @@
          "5555555555"
       ],
       "emails": [],
-      "address": "not set",
+      "address": "Kyiv",
       "birthday": "01.01.1990"
    },
    "Mask": {
@@ -26,7 +26,9 @@
       "phones": [
          "9876543210"
       ],
-      "emails": [],
+      "emails": [
+         "tesla@mail.usa"
+      ],
       "address": "not set",
       "birthday": "15.12.1980"
    }

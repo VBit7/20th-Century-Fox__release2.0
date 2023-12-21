@@ -278,6 +278,25 @@ class AddressBook(UserDict):
         return f"{name} is not in the AddressBook"
 
     # Відновлення адресної книги з диска
+    # def load_from_json(self, filename):
+    #     try:
+    #         with open(filename, "r") as file:
+    #             records_data = json.load(file)
+
+    #             for name, data in records_data.items():
+    #                 record = Record(data["name"])
+    #                 lenght = range(len(data["phones"]))
+
+    #                 for i in lenght:
+    #                     record.add_phone(data["phones"][i])
+
+    #                 if data["birthday"] != "not set":
+    #                     record.add_birthday(data["birthday"])
+
+    #                 self.data[name] = record
+
+    #     except FileNotFoundError:
+    #         pass
     def load_from_json(self, filename):
         try:
             with open(filename, "r") as file:
@@ -285,11 +304,20 @@ class AddressBook(UserDict):
 
                 for name, data in records_data.items():
                     record = Record(data["name"])
-                    lenght = range(len(data["phones"]))
 
-                    for i in lenght:
-                        record.add_phone(data["phones"][i])
+                    # Завантаження телефонів
+                    for phone_number in data["phones"]:
+                        record.add_phone(phone_number)
 
+                    # Завантаження email
+                    for email_address in data["emails"]:
+                        record.add_email(email_address)
+
+                    # Завантаження адреси
+                    if "address" in data:
+                        record.address = data["address"]
+
+                    # Завантаження дня народження
                     if data["birthday"] != "not set":
                         record.add_birthday(data["birthday"])
 
@@ -297,6 +325,7 @@ class AddressBook(UserDict):
 
         except FileNotFoundError:
             pass
+
 
     # Збереження адресної книги на диск
     def save_to_json(self, filename):
@@ -306,26 +335,47 @@ class AddressBook(UserDict):
 
     # Здійснює пошук в адресній книзі за ім'ям користувача або номером телефону.
     # Підтримує пошук за частиною імені або номеру телефону.
+    # def find_data_in_book(self, search_string):
+    #     found_users = []
+
+    #     for record in self.data.values():
+    #         if search_string in record.name.name:
+    #             found_users.append(record)
+
+    #         for phone in record.phones:
+    #             if search_string in phone.value:
+    #                 found_users.append(record)
+
+    #     if found_users:
+    #         print("Found users:\n")
+    #         for record in found_users:
+    #             print(f"Name: {record.name.name}")
+    #             print(f"Phones: {', '.join(phone.value for phone in record.phones)}")
+    #             print(f"Birthday: {record.birthday}\n")
+    #     else:
+    #         print("This data is not found.")
     def find_data_in_book(self, search_string):
-        found_users = []
+        found_users = set()  # Використовуємо множину для унікальних записів
 
         for record in self.data.values():
-            if search_string in record.name.name:
-                found_users.append(record)
+            if search_string.lower() in record.name.name.lower():
+                found_users.add(record)
 
             for phone in record.phones:
-                if search_string in phone.value:
-                    found_users.append(record)
+                if search_string.lower() in phone.value.lower():
+                    found_users.add(record)
 
-        if found_users:
-            print("Found users:\n")
-            for record in found_users:
-                print(f"Name: {record.name.name}")
-                print(f"Phones: {', '.join(phone.value for phone in record.phones)}")
-                print(f"Birthday: {record.birthday}\n")
-        else:
-            print("This data is not found.")
+            for email in record.emails:
+                if search_string.lower() in email.value.lower():
+                    found_users.add(record)
 
+            if record.address and search_string.lower() in record.address.lower():
+                found_users.add(record)
+
+            if record.birthday and search_string.lower() in str(record.birthday).lower():
+                found_users.add(record)
+
+        return list(found_users)
 
 # Генерація рандомної дати народження
 def generate_random_birthdate(start_date='1970-01-01', end_date='2000-12-31', date_format='%Y-%m-%d'):
