@@ -83,7 +83,7 @@ class MainApplication(tk.Tk):
 
         # For "Change" Contacts. Group 3:
         # btn_change_contact = tk.Button(self, text="Change contact", command=self.show_change_contact_window, width=WIDTH, height=HEIGHT)
-        btn_change_contact = tk.Button(self, text="Change contact", command=lambda: ChangeContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
+        btn_change_contact = tk.Button(self, text="Change", command=lambda: ChangeContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
         # btn_change_phone = tk.Button(self, text="Change phone", command=self.show_change_phone_window, width=WIDTH, height=HEIGHT)
         # btn_change_email = tk.Button(self, text="Change email", command=self.show_change_email_window, width=WIDTH, height=HEIGHT)
         # btn_change_address = tk.Button(self, text="Change address", command=self.show_change_address_window, width=WIDTH, height=HEIGHT)
@@ -96,7 +96,8 @@ class MainApplication(tk.Tk):
         # btn_change_birthday.grid(row=5, column=2, sticky="e", padx=PADX, pady=PADY)
 
         # For "Delete" Contacts. Group 4:
-        btn_delete_contact = tk.Button(self, text="Delete contact", command=self.show_delete_contact_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_contact = tk.Button(self, text="Delete contact", command=self.show_delete_contact_window, width=WIDTH, height=HEIGHT)
+        btn_delete_contact = tk.Button(self, text="Delete", command=lambda: DeleteWindow(self, address_book), width=WIDTH, height=HEIGHT)
         # btn_delete_phone = tk.Button(self, text="Delete phone", command=self.show_delete_phone_window, width=WIDTH, height=HEIGHT)
         # btn_delete_email = tk.Button(self, text="Delete email", command=self.show_delete_email_window, width=WIDTH, height=HEIGHT)
         # btn_delete_address = tk.Button(self, text="Delete address", command=self.show_delete_address_window, width=WIDTH, height=HEIGHT)
@@ -142,78 +143,78 @@ class MainApplication(tk.Tk):
         btn_sorting_files.grid(row=10, column=0, sticky="w", padx=PADX, pady=PADY)
 
 
-    # "Add contact"
-    def show_add_contact_window(self, address_book):
-        add_contact_window = AddContactWindow(self)
-        add_contact_window.center_window()
+    # # "Add contact"
+    # def show_add_contact_window(self, address_book):
+    #     add_contact_window = AddContactWindow(self)
+    #     add_contact_window.center_window()
 
-    # "Add phone"
-    def show_add_phone_window(self):
-        add_phone_window = AddPhoneWindow(self)
-        add_phone_window.center_window()
+    # # "Add phone"
+    # def show_add_phone_window(self):
+    #     add_phone_window = AddPhoneWindow(self)
+    #     add_phone_window.center_window()
 
-    # "Add email"
-    def show_add_email_window(self):
-        add_email_window = AddEmailWindow(self)
-        add_email_window.center_window()
+    # # "Add email"
+    # def show_add_email_window(self):
+    #     add_email_window = AddEmailWindow(self)
+    #     add_email_window.center_window()
 
-    # "Add address"
-    def show_add_address_window(self):
-        add_address_window = AddAddressWindow(self)
-        add_address_window.center_window()
+    # # "Add address"
+    # def show_add_address_window(self):
+    #     add_address_window = AddAddressWindow(self)
+    #     add_address_window.center_window()
 
-    # "Add birthday"
-    def show_add_birthday_window(self):
-        add_birthday_window = AddBirthdayWindow(self)
-        add_birthday_window.center_window()
-
-
-    # "Search contact"
-    def show_search_contact_window(self):
-        search_contact_window = SearchContactWindow(self)
-        search_contact_window.center_window()
-
-    # "Search phone" - It is unclear whether it is necessary???
-    def search_phone(self):
-        messagebox.showinfo("Action", "Search phone")
-
-    # "Search email" - It is unclear whether it is necessary???
-    def search_email(self):
-        messagebox.showinfo("Action", "Search email")
-
-    # "Search address" - It is unclear whether it is necessary???
-    def search_address(self):
-        messagebox.showinfo("Action", "Search address")
-
-    # "Search birthday" - It is unclear whether it is necessary???
-    def search_birthday(self):
-        messagebox.showinfo("Action", "Search birthday")
+    # # "Add birthday"
+    # def show_add_birthday_window(self):
+    #     add_birthday_window = AddBirthdayWindow(self)
+    #     add_birthday_window.center_window()
 
 
-    # "Change contact"
-    def show_change_contact_window(self):
-        change_contact_window = ChangeContactWindow(self)
-        change_contact_window.center_window()
+    # # "Search contact"
+    # def show_search_contact_window(self):
+    #     search_contact_window = SearchContactWindow(self)
+    #     search_contact_window.center_window()
 
-    # "Change phone"
-    def show_change_phone_window(self):
-        change_phone_window = ChangePhoneWindow(self)
-        change_phone_window.center_window()
+    # # "Search phone" - It is unclear whether it is necessary???
+    # def search_phone(self):
+    #     messagebox.showinfo("Action", "Search phone")
 
-    # "Change email"
-    def show_change_email_window(self):
-        change_email_window = ChangeEmailWindow(self)
-        change_email_window.center_window()
+    # # "Search email" - It is unclear whether it is necessary???
+    # def search_email(self):
+    #     messagebox.showinfo("Action", "Search email")
 
-    # "Change address"
-    def show_change_address_window(self):
-        change_address_window = ChangeAddressWindow(self)
-        change_address_window.center_window()
+    # # "Search address" - It is unclear whether it is necessary???
+    # def search_address(self):
+    #     messagebox.showinfo("Action", "Search address")
 
-    "Change birthday"
-    def show_change_birthday_window(self):
-        change_birthday_window = ChangeBirthdayWindow(self)
-        change_birthday_window.center_window()
+    # # "Search birthday" - It is unclear whether it is necessary???
+    # def search_birthday(self):
+    #     messagebox.showinfo("Action", "Search birthday")
+
+
+    # # "Change contact"
+    # def show_change_contact_window(self):
+    #     change_contact_window = ChangeContactWindow(self)
+    #     change_contact_window.center_window()
+
+    # # "Change phone"
+    # def show_change_phone_window(self):
+    #     change_phone_window = ChangePhoneWindow(self)
+    #     change_phone_window.center_window()
+
+    # # "Change email"
+    # def show_change_email_window(self):
+    #     change_email_window = ChangeEmailWindow(self)
+    #     change_email_window.center_window()
+
+    # # "Change address"
+    # def show_change_address_window(self):
+    #     change_address_window = ChangeAddressWindow(self)
+    #     change_address_window.center_window()
+
+    # "Change birthday"
+    # def show_change_birthday_window(self):
+    #     change_birthday_window = ChangeBirthdayWindow(self)
+    #     change_birthday_window.center_window()
 
 
     # "Delete contact"
@@ -414,7 +415,6 @@ class AddContactWindow(tk.Toplevel):
             messagebox.showerror("Error", str(e))
 
 
-
 class AddPhoneWindow(tk.Toplevel):
     def __init__(self, main_app, *args, **kwargs):
         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
@@ -466,7 +466,6 @@ class AddPhoneWindow(tk.Toplevel):
         
         messagebox.showinfo("Contact Information", f"User: {user}\nPhone: {phone}\n")
         self.destroy()
-
 
 
 class AddEmailWindow(tk.Toplevel):
@@ -522,7 +521,6 @@ class AddEmailWindow(tk.Toplevel):
         self.destroy()
 
 
-
 class AddAddressWindow(tk.Toplevel):
     def __init__(self, main_app, *args, **kwargs):
         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
@@ -574,7 +572,6 @@ class AddAddressWindow(tk.Toplevel):
         
         messagebox.showinfo("Contact Information", f"User: {user}\nAddress: {address}\n")
         self.destroy()
-
 
 
 class AddBirthdayWindow(tk.Toplevel):
@@ -869,6 +866,7 @@ class ChangeContactWindow(tk.Toplevel):
             messagebox.showerror("Error", "Selected contact not found")
 
 
+
 class ChangePhoneWindow(tk.Toplevel):
     def __init__(self, main_app, *args, **kwargs):
         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
@@ -991,7 +989,6 @@ class ChangeEmailWindow(tk.Toplevel):
         self.destroy()
 
 
-
 class ChangeAddressWindow(tk.Toplevel):
     def __init__(self, main_app, *args, **kwargs):
         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
@@ -1043,7 +1040,6 @@ class ChangeAddressWindow(tk.Toplevel):
         
         messagebox.showinfo("Contact Information", f"User: {user}\nNew Address: {address}")
         self.destroy()
-
 
 
 class ChangeBirthdayWindow(tk.Toplevel):
@@ -1100,155 +1096,284 @@ class ChangeBirthdayWindow(tk.Toplevel):
 
 
 
-class DeleteContactWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
-        self.title("Delete Contact")
+class DeleteWindow(tk.Toplevel):
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
+        self.title("Delete")
         self.iconbitmap('./img/icon.ico')
 
-        self.user_var = tk.StringVar()
-
-        # Text input fields
-        user_label = tk.Label(self, text="Delete User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
-
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
-
-        # Buttons "Save" and "Cancel"
-        save_button = tk.Button(self, text="Save", command=self.delete_contact, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-
-        save_button.grid(row=1, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=1, column=1, sticky="e", padx=30, pady=10)
-
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
+        # Setting the window position to the center of the screen
+        window_width = 400
+        window_height = 150
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        self.geometry(f'+{x}+{y}')
+        self.address_book = address_book
+
+        # Кнопки
+        self.delete_contact_button = tk.Button(self, text="Delete Contact", command=self.delete_contact, width=16, height=2)
+        self.delete_contact_button.pack(side=tk.LEFT, padx=10)
+
+        self.delete_phone_button = tk.Button(self, text="Delete Phone", command=self.delete_phone, width=16, height=2)
+        self.delete_phone_button.pack(side=tk.LEFT, padx=10)
+
+        self.delete_email_button = tk.Button(self, text="Delete Email", command=self.delete_email, width=16, height=2)
+        self.delete_email_button.pack(side=tk.LEFT, padx=10)
 
     def delete_contact(self):
-        user = self.user_var.get()
+        messagebox.showinfo("Delete Contact", "Deleting contact functionality will be implemented here.")
 
-        # <--  Here, the logic for "Delete Contact"
-        
-        messagebox.showinfo("Contact Information", f"Delete User: {user}")
-        self.destroy()
+    def delete_phone(self):
+        delete_phone_window = DeletePhoneWindow(self, address_book)
+        # messagebox.showinfo("Delete Phone", "Deleting phone functionality will be implemented here.")
+
+    def delete_email(self):
+        messagebox.showinfo("Delete Email", "Deleting email functionality will be implemented here.")
+
+
 
 
 class DeletePhoneWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
         self.title("Delete Phone")
         self.iconbitmap('./img/icon.ico')
 
-        self.user_var = tk.StringVar()
-        self.phone_var = tk.StringVar()
-
-        # Text input fields
-        user_label = tk.Label(self, text="User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
-
-        phone_label = tk.Label(self, text="Delete Phone:")
-        phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
-
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
-
-        phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        phone_entry.grid(row=1, column=1, padx=10, pady=5)
-
-        # Buttons "Save" and "Cancel"
-        save_button = tk.Button(self, text="Save", command=self.delete_phone, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-
-        save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
-
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
+        # Setting the window position to the center of the screen
+        window_width = 280
+        window_height = 140
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        self.geometry(f'+{x}+{y}')
+        self.address_book = address_book
+
+        # Combo for selecting an existing contact
+        self.select_contact_label = tk.Label(self, text="Select Contact:")
+        self.select_contact_label.grid(row=0, column=0, padx=10, pady=5, sticky=tk.E)
+
+        existing_contacts = list(self.address_book.data.keys())
+        self.selected_contact_var = tk.StringVar()
+        self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=20)
+        self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Combo for selecting an existing phone number
+        self.select_phone_label = tk.Label(self, text="Select Phone:")
+        self.select_phone_label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.selected_phone_var = tk.StringVar()
+        self.phone_combobox = ttk.Combobox(self, textvariable=self.selected_phone_var, values=[], width=20)
+        self.phone_combobox.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Buttons to delete phone or cancel
+        self.delete_button = tk.Button(self, text="Delete", command=self.delete_phone, width=10, height=1)
+        self.delete_button.grid(row=2, column=0, padx=10, pady=10, sticky=tk.W)
+
+        self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+        self.cancel_button.grid(row=2, column=1, padx=10, pady=10, sticky=tk.E)
+
+        # Bind the event to update phone numbers based on the selected contact
+        self.contact_combobox.bind("<<ComboboxSelected>>", self.update_phone_numbers)
+
+        # Initialize details for the first contact in the list (if available)
+        if existing_contacts:
+            first_contact = existing_contacts[0]
+            self.selected_contact_var.set(first_contact)
+            self.update_phone_numbers()
+
+    def update_phone_numbers(self, event=None):
+        selected_contact = self.selected_contact_var.get()
+        if selected_contact:
+            contact = self.address_book.find(selected_contact)
+            if contact:
+                # Update phone numbers
+                phone_numbers = [str(phone) for phone in contact.phones]
+                self.phone_combobox['values'] = phone_numbers
+                if phone_numbers:
+                    self.selected_phone_var.set(phone_numbers[0])
+                else:
+                    self.selected_phone_var.set("")
 
     def delete_phone(self):
-        user = self.user_var.get()
-        phone = self.phone_var.get()
+        selected_contact = self.selected_contact_var.get()
+        selected_phone = self.selected_phone_var.get()
 
-        # <--  Here, the logic for "Delete Phone"
+        if selected_contact and selected_phone:
+            contact = self.address_book.find(selected_contact)
+            if contact:
+                # Delete the selected phone number from the contact
+                contact.remove_phone(selected_phone)
+
+                messagebox.showinfo("Delete Phone", "Phone number deletion successfully completed")
+
+                # Save changes to the address book
+                self.address_book.save_to_json("address_book.json")
+
+                # Close the window
+                self.destroy()
+        else:
+            messagebox.showerror("Error", "Selected contact or phone number not found")
+
+
+
+
+
+
+
+# class DeleteContactWindow(tk.Toplevel):
+#     def __init__(self, main_app, *args, **kwargs):
+#         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
+
+#         self.title("Delete Contact")
+#         self.iconbitmap('./img/icon.ico')
+
+#         self.user_var = tk.StringVar()
+
+#         # Text input fields
+#         user_label = tk.Label(self, text="Delete User Name:")
+#         user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
+
+#         # Placing widgets on a window
+#         user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+#         user_entry.grid(row=0, column=1, padx=10, pady=5)
+
+#         # Buttons "Save" and "Cancel"
+#         save_button = tk.Button(self, text="Save", command=self.delete_contact, width=10, height=1)
+#         cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+
+#         save_button.grid(row=1, column=0, sticky="e", padx=30, pady=10)
+#         cancel_button.grid(row=1, column=1, sticky="e", padx=30, pady=10)
+
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
+
+#         self.geometry(f'+{x}+{y}')
+
+#     def delete_contact(self):
+#         user = self.user_var.get()
+
+#         # <--  Here, the logic for "Delete Contact"
         
-        messagebox.showinfo("Contact Information", f"User: {user}\nDelete Phone: {phone}")
-        self.destroy()
+#         messagebox.showinfo("Contact Information", f"Delete User: {user}")
+#         self.destroy()
 
 
-class DeleteEmailWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
+# class DeletePhoneWindow(tk.Toplevel):
+#     def __init__(self, main_app, *args, **kwargs):
+#         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
 
-        self.title("Delete Email")
-        self.iconbitmap('./img/icon.ico')
+#         self.title("Delete Phone")
+#         self.iconbitmap('./img/icon.ico')
 
-        self.user_var = tk.StringVar()
-        self.email_var = tk.StringVar()
+#         self.user_var = tk.StringVar()
+#         self.phone_var = tk.StringVar()
 
-        # Text input fields
-        user_label = tk.Label(self, text="User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
+#         # Text input fields
+#         user_label = tk.Label(self, text="User Name:")
+#         user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
 
-        email_label = tk.Label(self, text="Delete Email:")
-        email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
+#         phone_label = tk.Label(self, text="Delete Phone:")
+#         phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
 
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
+#         # Placing widgets on a window
+#         user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+#         user_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        email_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        email_entry.grid(row=1, column=1, padx=10, pady=5)
+#         phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+#         phone_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        # Buttons "Save" and "Cancel"
-        save_button = tk.Button(self, text="Save", command=self.delete_email, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+#         # Buttons "Save" and "Cancel"
+#         save_button = tk.Button(self, text="Save", command=self.delete_phone, width=10, height=1)
+#         cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
 
-        save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
+#         save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
+#         cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
 
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
 
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
 
-        self.geometry(f'+{x}+{y}')
+#         self.geometry(f'+{x}+{y}')
 
-    def delete_email(self):
-        user = self.user_var.get()
-        email = self.email_var.get()
+#     def delete_phone(self):
+#         user = self.user_var.get()
+#         phone = self.phone_var.get()
 
-        # <--  Here, the logic for "Delete Email"
+#         # <--  Here, the logic for "Delete Phone"
         
-        messagebox.showinfo("Contact Information", f"User: {user}\nDelete Email: {email}")
-        self.destroy()
+#         messagebox.showinfo("Contact Information", f"User: {user}\nDelete Phone: {phone}")
+#         self.destroy()
+
+
+# class DeleteEmailWindow(tk.Toplevel):
+#     def __init__(self, main_app, *args, **kwargs):
+#         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
+
+#         self.title("Delete Email")
+#         self.iconbitmap('./img/icon.ico')
+
+#         self.user_var = tk.StringVar()
+#         self.email_var = tk.StringVar()
+
+#         # Text input fields
+#         user_label = tk.Label(self, text="User Name:")
+#         user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
+
+#         email_label = tk.Label(self, text="Delete Email:")
+#         email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
+
+#         # Placing widgets on a window
+#         user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+#         user_entry.grid(row=0, column=1, padx=10, pady=5)
+
+#         email_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+#         email_entry.grid(row=1, column=1, padx=10, pady=5)
+
+#         # Buttons "Save" and "Cancel"
+#         save_button = tk.Button(self, text="Save", command=self.delete_email, width=10, height=1)
+#         cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+
+#         save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
+#         cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
+
+#     def center_window(self):
+#         self.update_idletasks()
+#         window_width = self.winfo_width()
+#         window_height = self.winfo_height()
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+
+#         x = (screen_width - window_width) // 2
+#         y = (screen_height - window_height) // 2
+
+#         self.geometry(f'+{x}+{y}')
+
+#     def delete_email(self):
+#         user = self.user_var.get()
+#         email = self.email_var.get()
+
+#         # <--  Here, the logic for "Delete Email"
+        
+#         messagebox.showinfo("Contact Information", f"User: {user}\nDelete Email: {email}")
+#         self.destroy()
 
 
 class DeleteAddressWindow(tk.Toplevel):

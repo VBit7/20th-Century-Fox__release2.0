@@ -10,18 +10,6 @@
       "address": "not set",
       "birthday": "15.12.1980"
    },
-   "User-10": {
-      "name": "User-10",
-      "phones": [
-         "1234567890",
-         "0001112222",
-         "8888888888",
-         "9999999999"
-      ],
-      "emails": [],
-      "address": "Anywhere",
-      "birthday": "01.01.2001"
-   },
    "Ed": {
       "name": "Ed",
       "phones": [
@@ -31,5 +19,15 @@
       "emails": [],
       "address": "Kyiv",
       "birthday": "01.01.1990"
+   },
+   "User": {
+      "name": "User",
+      "phones": [
+         "1234567890",
+         "0001112222"
+      ],
+      "emails": [],
+      "address": "Anywhere",
+      "birthday": "01.01.2001"
    }
 }
