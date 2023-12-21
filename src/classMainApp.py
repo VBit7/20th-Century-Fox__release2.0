@@ -254,18 +254,10 @@ class AddContactWindow(tk.Toplevel):
 
             # Save the changes and close the window
             self.address_book.save_to_json("address_book.json")
-            messagebox.showinfo("Contact added", f"Contact name: {name}\nPhone number: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {birthday}")
+            # messagebox.showinfo("Contact added", f"Contact name: {name}\nPhone number: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {birthday}")
             # self.destroy()
 
-        # except ValueError as e:
-        #     messagebox.showerror("Error", str(e))
         except ValueError as e:
-            # Show error message and allow the user to fix the input
-            # correction = askstring("Error", f"{e}\n\nPlease correct the input:")
-            # if correction is not None:
-            #     # Handle the corrected input (e.g., update the corresponding variable)
-            #     # Then, you may want to retry the operation or ask for further corrections.
-            #     pass
             self.grab_set()
             messagebox.showerror("Error", str(e))
             self.grab_release()
@@ -539,18 +531,24 @@ class DeleteContactWindow(tk.Toplevel):
         selected_contact = self.selected_contact_var.get()
 
         if selected_contact:
-            # Delete the selected contact from the address book
-            self.address_book.delete(selected_contact)
+            # Check if the contact exists
+            existing_contact = self.address_book.find(selected_contact)
 
-            messagebox.showinfo("Delete Contact", "Contact deletion successfully completed.")
+            if existing_contact:
+                # Delete the selected contact from the address book
+                self.address_book.delete(selected_contact)
 
-            # Save changes to the address book
-            self.address_book.save_to_json("address_book.json")
+                messagebox.showinfo("Delete Contact", "Contact deletion successfully completed.")
 
-            # Close the window
-            self.destroy()
+                # Save changes to the address book
+                self.address_book.save_to_json("address_book.json")
+
+                # Close the window
+                self.destroy()
+            else:
+                messagebox.showerror("Error", "Selected contact not found")
         else:
-            messagebox.showerror("Error", "Selected contact not found")
+            messagebox.showerror("Error", "Selected contact not specified")
 
 
 
