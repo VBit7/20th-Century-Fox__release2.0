@@ -1,16 +1,33 @@
 {
-   "User-797": {
-      "name": "User-797",
+   "User-1": {
+      "name": "User-1",
       "phones": [
-         "4055632848"
+         "1234567890",
+         "0001112222",
+         "0000000000",
+         "9999999999"
       ],
-      "birthday": "1995-10-16"
+      "emails": [],
+      "address": "not set",
+      "birthday": "01.01.2000"
    },
-   "User-260": {
-      "name": "User-260",
+   "Ed": {
+      "name": "Ed",
       "phones": [
-         "6170621216"
+         "1234567890",
+         "5555555555"
       ],
-      "birthday": "1987-06-02"
+      "emails": [],
+      "address": "not set",
+      "birthday": "01.01.1990"
+   },
+   "Mask": {
+      "name": "Mask",
+      "phones": [
+         "9876543210"
+      ],
+      "emails": [],
+      "address": "not set",
+      "birthday": "15.12.1980"
    }
 }

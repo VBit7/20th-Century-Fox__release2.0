@@ -66,6 +66,36 @@ class Phone(Field):
         return len(phone_number) == 10 and phone_number.isdigit()
 
 
+class Email(Field):
+    """
+    Клас для зберігання електронної пошти.
+    Має валідацію формату електронної пошти.
+    Необов'язкове поле.
+    """
+    def __init__(self, value):
+        self._value = None
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, new_email):
+        if self.check_email(new_email):
+            self._value = new_email
+        else:
+            raise ValueError("Invalid email format")
+
+    @staticmethod
+    def check_email(email):
+        # Проста перевірка формату електронної пошти (можна використовувати більш складні перевірки за потребою)
+        return "@" in email and "." in email.split("@")[-1]
+
+    def __str__(self):
+        return str(self.value)
+
+
 class Birthday(Field):
     """
     Клас "Дні народження"
@@ -74,7 +104,9 @@ class Birthday(Field):
         self._birthday = None
         self.birthday = birthday
 
-    form = '%Y-%m-%d'
+    # form = '%Y-%m-%d'
+    form = '%d.%m.%Y'
+        
 
     @property
     def birthday(self):
@@ -94,17 +126,25 @@ class Birthday(Field):
 class Record:
     """
     Клас для зберігання інформації про контакт, включаючи ім'я та список телефонів.
+    Також містить список електронних адрес та адресу.
     Відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
     """
     def __init__(self, name, birthday=None):
         self.name = Name(name)
         self.phones = []
+        self.emails = []
+        self.address = None
         self.birthday = Birthday(birthday) if birthday else birthday
 
     # Додавання телефонів
     def add_phone(self, phone_number):
         phone = phone_number
         self.phones.append(Phone(phone))
+
+    # Додавання електронної пошти
+    def add_email(self, email):
+        self.emails.append(Email(email))
+        return self.emails[-1]  # Повертаємо останній елемент списку, що є об'єктом Email
 
     # Додавання дня народження
     def add_birthday(self, bd):
@@ -142,6 +182,22 @@ class Record:
                 return f"Phone number has been updated for {self.name.name}"
         raise ValueError
 
+    # Видалення електронних адрес
+    def remove_email(self, email):
+        for el in self.emails:
+            if el.value == email:
+                self.emails.remove(el)
+                return f"Email {email} has been deleted"
+        return f"Email {email} is not found"
+
+    # Редагування електронних адрес
+    def edit_email(self, old_email, new_email):
+        for ind, email in enumerate(self.emails):
+            if email.value == old_email:
+                self.emails[ind] = Email(new_email)
+                return f"Email address has been updated for {self.name.name}"
+        raise ValueError
+
     # Пошук телефону
     def find_phone(self, phone_to_find):
         for phone in self.phones:
@@ -154,14 +210,18 @@ class Record:
         return {
             "name": self.name.name,
             "phones": [str(phone) for phone in self.phones],
+            "emails": [str(email) for email in self.emails],
+            "address": str(self.address) if self.address else "not set",
             "birthday": str(self.birthday) if self.birthday else "not set"
         }
 
     def __str__(self):
         phone_numbers = ', '.join(str(phone) for phone in self.phones)
+        email_addresses = ', '.join(str(email) for email in self.emails)
+        address = self.address if self.address else "not set"
         birthday = self.birthday if self.birthday else "not set"
 
-        return f'{self.name.name} - {phone_numbers}, birthday - {birthday}'
+        return f'{self.name.name} - Phones: {phone_numbers}, Emails: {email_addresses}, Address: {address}, Birthday: {birthday}'
 
 
 class AddressBookIterator:

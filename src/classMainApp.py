@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from src.classAddressBook import AddressBook
+from src.classAddressBook import AddressBook, Record
 # from src import sorter
 
 
@@ -54,56 +54,57 @@ class MainApplication(tk.Tk):
         HEIGHT = 2
 
         # For "Add" Contacts. Group 1:
-        btn_add_contact = tk.Button(self, text="Add contact", command=self.show_add_contact_window, width=WIDTH, height=HEIGHT)
-        btn_add_phone = tk.Button(self, text="Add phone", command=self.show_add_phone_window, width=WIDTH, height=HEIGHT)
-        btn_add_email = tk.Button(self, text="Add email", command=self.show_add_email_window, width=WIDTH, height=HEIGHT)
-        btn_add_address = tk.Button(self, text="Add address", command=self.show_add_address_window, width=WIDTH, height=HEIGHT)
-        btn_add_birthday = tk.Button(self, text="Add birthday", command=self.show_add_birthday_window, width=WIDTH, height=HEIGHT)
+        # btn_add_contact = tk.Button(self, text="Add", command=self.show_add_contact_window, width=WIDTH, height=HEIGHT)
+        btn_add_contact = tk.Button(self, text="Add", command=lambda: AddContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
+        # btn_add_phone = tk.Button(self, text="Add phone", command=self.show_add_phone_window, width=WIDTH, height=HEIGHT)
+        # btn_add_email = tk.Button(self, text="Add email", command=self.show_add_email_window, width=WIDTH, height=HEIGHT)
+        # btn_add_address = tk.Button(self, text="Add address", command=self.show_add_address_window, width=WIDTH, height=HEIGHT)
+        # btn_add_birthday = tk.Button(self, text="Add birthday", command=self.show_add_birthday_window, width=WIDTH, height=HEIGHT)
 
         btn_add_contact.grid(row=1, column=0, sticky="w", padx=PADX, pady=PADY)
-        btn_add_phone.grid(row=2, column=0, sticky="w", padx=PADX, pady=PADY)
-        btn_add_email.grid(row=3, column=0, sticky="w", padx=PADX, pady=PADY)
-        btn_add_address.grid(row=4, column=0, sticky="w", padx=PADX, pady=PADY)
-        btn_add_birthday.grid(row=5, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_phone.grid(row=2, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_email.grid(row=3, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_address.grid(row=4, column=0, sticky="w", padx=PADX, pady=PADY)
+        # btn_add_birthday.grid(row=5, column=0, sticky="w", padx=PADX, pady=PADY)
 
         # For "Search" Contacts. Group 2:
         btn_search_contact = tk.Button(self, text="Search contact", command=self.show_search_contact_window, width=WIDTH, height=HEIGHT)
-        btn_search_phone = tk.Button(self, text="Search phone", command=self.search_phone, width=WIDTH, height=HEIGHT)
-        btn_search_email = tk.Button(self, text="Search email", command=self.search_email, width=WIDTH, height=HEIGHT)
-        btn_search_address = tk.Button(self, text="Search address", command=self.search_address, width=WIDTH, height=HEIGHT)
-        btn_search_birthday = tk.Button(self, text="Search birthday", command=self.search_birthday, width=WIDTH, height=HEIGHT)
+        # btn_search_phone = tk.Button(self, text="Search phone", command=self.search_phone, width=WIDTH, height=HEIGHT)
+        # btn_search_email = tk.Button(self, text="Search email", command=self.search_email, width=WIDTH, height=HEIGHT)
+        # btn_search_address = tk.Button(self, text="Search address", command=self.search_address, width=WIDTH, height=HEIGHT)
+        # btn_search_birthday = tk.Button(self, text="Search birthday", command=self.search_birthday, width=WIDTH, height=HEIGHT)
 
         btn_search_contact.grid(row=1, column=1, sticky="e", padx=PADX, pady=PADY)
-        btn_search_phone.grid(row=2, column=1, sticky="e", padx=PADX, pady=PADY)
-        btn_search_email.grid(row=3, column=1, sticky="e", padx=PADX, pady=PADY)
-        btn_search_address.grid(row=4, column=1, sticky="e", padx=PADX, pady=PADY)
-        btn_search_birthday.grid(row=5, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_phone.grid(row=2, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_email.grid(row=3, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_address.grid(row=4, column=1, sticky="e", padx=PADX, pady=PADY)
+        # btn_search_birthday.grid(row=5, column=1, sticky="e", padx=PADX, pady=PADY)
 
         # For "Change" Contacts. Group 3:
         btn_change_contact = tk.Button(self, text="Change contact", command=self.show_change_contact_window, width=WIDTH, height=HEIGHT)
-        btn_change_phone = tk.Button(self, text="Change phone", command=self.show_change_phone_window, width=WIDTH, height=HEIGHT)
-        btn_change_email = tk.Button(self, text="Change email", command=self.show_change_email_window, width=WIDTH, height=HEIGHT)
-        btn_change_address = tk.Button(self, text="Change address", command=self.show_change_address_window, width=WIDTH, height=HEIGHT)
-        btn_change_birthday = tk.Button(self, text="Change birthday", command=self.show_change_birthday_window, width=WIDTH, height=HEIGHT)
+        # btn_change_phone = tk.Button(self, text="Change phone", command=self.show_change_phone_window, width=WIDTH, height=HEIGHT)
+        # btn_change_email = tk.Button(self, text="Change email", command=self.show_change_email_window, width=WIDTH, height=HEIGHT)
+        # btn_change_address = tk.Button(self, text="Change address", command=self.show_change_address_window, width=WIDTH, height=HEIGHT)
+        # btn_change_birthday = tk.Button(self, text="Change birthday", command=self.show_change_birthday_window, width=WIDTH, height=HEIGHT)
 
         btn_change_contact.grid(row=1, column=2, sticky="e", padx=PADX, pady=PADY)
-        btn_change_phone.grid(row=2, column=2, sticky="e", padx=PADX, pady=PADY)
-        btn_change_email.grid(row=3, column=2, sticky="e", padx=PADX, pady=PADY)
-        btn_change_address.grid(row=4, column=2, sticky="e", padx=PADX, pady=PADY)
-        btn_change_birthday.grid(row=5, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_phone.grid(row=2, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_email.grid(row=3, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_address.grid(row=4, column=2, sticky="e", padx=PADX, pady=PADY)
+        # btn_change_birthday.grid(row=5, column=2, sticky="e", padx=PADX, pady=PADY)
 
         # For "Delete" Contacts. Group 4:
         btn_delete_contact = tk.Button(self, text="Delete contact", command=self.show_delete_contact_window, width=WIDTH, height=HEIGHT)
-        btn_delete_phone = tk.Button(self, text="Delete phone", command=self.show_delete_phone_window, width=WIDTH, height=HEIGHT)
-        btn_delete_email = tk.Button(self, text="Delete email", command=self.show_delete_email_window, width=WIDTH, height=HEIGHT)
-        btn_delete_address = tk.Button(self, text="Delete address", command=self.show_delete_address_window, width=WIDTH, height=HEIGHT)
-        btn_delete_birthday = tk.Button(self, text="Delete birthday", command=self.show_delete_birthday_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_phone = tk.Button(self, text="Delete phone", command=self.show_delete_phone_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_email = tk.Button(self, text="Delete email", command=self.show_delete_email_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_address = tk.Button(self, text="Delete address", command=self.show_delete_address_window, width=WIDTH, height=HEIGHT)
+        # btn_delete_birthday = tk.Button(self, text="Delete birthday", command=self.show_delete_birthday_window, width=WIDTH, height=HEIGHT)
 
         btn_delete_contact.grid(row=1, column=3, sticky="e", padx=PADX, pady=PADY)
-        btn_delete_phone.grid(row=2, column=3, sticky="e", padx=PADX, pady=PADY)
-        btn_delete_email.grid(row=3, column=3, sticky="e", padx=PADX, pady=PADY)
-        btn_delete_address.grid(row=4, column=3, sticky="e", padx=PADX, pady=PADY)
-        btn_delete_birthday.grid(row=5, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_phone.grid(row=2, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_email.grid(row=3, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_address.grid(row=4, column=3, sticky="e", padx=PADX, pady=PADY)
+        # btn_delete_birthday.grid(row=5, column=3, sticky="e", padx=PADX, pady=PADY)
 
         # For "Add" Notes. Group 1:
         btn_add_note = tk.Button(self, text="Add note", command=self.show_add_note_window, width=WIDTH, height=HEIGHT)
@@ -140,7 +141,7 @@ class MainApplication(tk.Tk):
 
 
     # "Add contact"
-    def show_add_contact_window(self):
+    def show_add_contact_window(self, address_book):
         add_contact_window = AddContactWindow(self)
         add_contact_window.center_window()
 
@@ -291,58 +292,68 @@ class MainApplication(tk.Tk):
 
 
 class AddContactWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
         self.title("Add Contact")
         self.iconbitmap('./img/icon.ico')
 
-        self.user_var = tk.StringVar()
+        # Setting the window position to the center of the screen
+        window_width = 350
+        window_height = 220
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+        self.address_book = address_book
+
+        self.name_label = tk.Label(self, text="Name:")
+        self.name_label.grid(row=0, column=0, padx=10, pady=5, sticky=tk.E)
+
+        # List of names for the Combobox
+        existing_names = [record.name.name for record in self.address_book.data.values()]
+        self.name_var = tk.StringVar()
+        self.name_combobox = ttk.Combobox(self, textvariable=self.name_var, values=existing_names, width=37)
+        self.name_combobox.set("Select or Enter Name")
+        self.name_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
+
+        self.phone_label = tk.Label(self, text="Phone:")
+        self.phone_label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
+
         self.phone_var = tk.StringVar()
+        self.phone_entry = tk.Entry(self, textvariable=self.phone_var, width=40)
+        self.phone_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
+
+        self.email_label = tk.Label(self, text="Email:")
+        self.email_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.E)
+
         self.email_var = tk.StringVar()
+        self.email_entry = tk.Entry(self, textvariable=self.email_var, width=40)
+        self.email_entry.grid(row=2, column=1, padx=10, pady=5, sticky=tk.W)
+
+        self.address_label = tk.Label(self, text="Address:")
+        self.address_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.E)
+
         self.address_var = tk.StringVar()
-        self.date_var = tk.StringVar()
+        self.address_entry = tk.Entry(self, textvariable=self.address_var, width=40)
+        self.address_entry.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
 
-        # Text input fields
-        user_label = tk.Label(self, text="User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
+        self.birthday_label = tk.Label(self, text="Birthday:")
+        self.birthday_label.grid(row=4, column=0, padx=10, pady=5, sticky=tk.E)
 
-        phone_label = tk.Label(self, text="Phone:")
-        phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
+        self.birthday_var = tk.StringVar()
+        self.birthday_entry = tk.Entry(self, textvariable=self.birthday_var, width=40)
+        self.birthday_entry.grid(row=4, column=1, padx=10, pady=5, sticky=tk.W)
 
-        email_label = tk.Label(self, text="Email:")
-        email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
+        self.add_button = tk.Button(self, text="Save", command=self.add_contact, width=10, height=1)
+        self.add_button.grid(row=5, column=0, padx=30, pady=10, sticky=tk.W)
 
-        address_label = tk.Label(self, text="Address:")
-        address_entry = tk.Entry(self, width=30, textvariable=self.address_var)
-
-        # Date entry field
-        date_label = tk.Label(self, text="Birthday:")
-        date_entry = tk.Entry(self, width=30, textvariable=self.date_var)
-
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
-
-        phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        phone_entry.grid(row=1, column=1, padx=10, pady=5)
-
-        email_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
-        email_entry.grid(row=2, column=1, padx=10, pady=5)
-
-        address_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
-        address_entry.grid(row=3, column=1, padx=10, pady=5)
-
-        date_label.grid(row=4, column=0, padx=10, pady=5, sticky="w")
-        date_entry.grid(row=4, column=1, padx=10, pady=5)
-
-        # Buttons "Save" and "Cancel"
-        save_button = tk.Button(self, text="Save", command=self.save_contact, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-
-        save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
-
+        self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
+        self.cancel_button.grid(row=5, column=1, padx=30, pady=10, sticky=tk.E)
+        # To horizontally align the buttons
+        self.add_button.grid(row=5, column=0, padx=30, pady=10, sticky=tk.W, columnspan=2)
+    
     def center_window(self):
         self.update_idletasks()
         window_width = self.winfo_width()
@@ -355,17 +366,50 @@ class AddContactWindow(tk.Toplevel):
 
         self.geometry(f'+{x}+{y}')
 
-    def save_contact(self):
-        user = self.user_var.get()
+    def add_contact(self):
+        name = self.name_var.get()
         phone = self.phone_var.get()
         email = self.email_var.get()
         address = self.address_var.get()
-        date = self.date_var.get()
+        birthday = self.birthday_var.get()
 
-        # <--  Here, the logic for "Add Contact"
-        
-        messagebox.showinfo("Contact Information", f"User: {user}\nPhone: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {date}")
-        self.destroy()
+        # Check if the name is not the default value
+        # if name == "Select or Enter Name":
+        #     messagebox.showwarning("Warning", "Please select or enter a valid name.")
+        #     return
+
+        try:
+            # Attempt to retrieve an existing record by name
+            existing_record = self.address_book.find(name)
+
+            if existing_record:
+                # If the name exists, add phone, email, address, and birthday (if provided)
+                if phone:
+                    existing_record.add_phone(phone)
+                if email:
+                    existing_record.add_email(email)
+                if address:
+                    existing_record.address = address
+                if birthday:
+                    existing_record.add_birthday(birthday)
+            else:
+                # If the name does not exist, create a new contact
+                new_record = Record(name, birthday)
+                if phone:
+                    new_record.add_phone(phone)
+                if email:
+                    new_record.add_email(email)
+                if address:
+                    new_record.address = address
+
+                self.address_book.add_record(new_record)
+
+            # Save the changes and close the window
+            self.address_book.save_to_json("address_book.json")
+            messagebox.showinfo("Contact added", f"Contact name: {name}\nPhone number: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {birthday}")
+            self.destroy()
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
 
 
 
@@ -1763,13 +1807,15 @@ class NoteTableWindow(tk.Toplevel):
 
 
 
+address_book = AddressBook()
+
 if __name__ == "__main__":
     # app = MainApplication()
     # app.mainloop()
 
     # Створення нової адресної книги
     # Якщо файл address_book.json існує, він автоматично буде завантажений
-    book = AddressBook()
+    # book = AddressBook()
 
     # # Додаємо запис в адресну книгу з рандомними іменем, номером телефону та датою народження
     # user_number = random.randint(100, 999)
