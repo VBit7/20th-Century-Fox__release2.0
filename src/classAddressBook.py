@@ -7,8 +7,8 @@ import json
 
 class Field:
     """
-    Базовий клас для полів запису.
-    Буде батьківським для всіх полів.
+    Base class for record fields.
+    Will be the parent for all fields.
     """
     def __init__(self, value):
         self.value = value
@@ -19,8 +19,8 @@ class Field:
 
 class Name(Field):
     """
-    Клас для зберігання імені контакту.
-    Обов'язкове поле.
+    Class for storing the contact name.
+    A mandatory field.
     """
     def __init__(self, name):
         self._name = None
@@ -37,9 +37,9 @@ class Name(Field):
 
 class Phone(Field):
     """
-    Клас для зберігання номера телефону.
-    Має валідацію формату (10 цифр).
-    Необов'язкове поле з телефоном. Один запис Record може містити декілька.
+    Class for storing a phone number.
+    Has format validation (10 digits).
+    An optional field for phone numbers. One Record can contain multiple phone numbers.
     """
     def __init__(self, value):
         self._value = None
@@ -63,9 +63,9 @@ class Phone(Field):
 
 class Email(Field):
     """
-    Клас для зберігання електронної пошти.
-    Має валідацію формату електронної пошти.
-    Необов'язкове поле.
+    Class for storing an email address.
+    Has format validation for email.
+    An optional field.
     """
     def __init__(self, value):
         self._value = None
@@ -84,7 +84,7 @@ class Email(Field):
 
     @staticmethod
     def check_email(email):
-        # Проста перевірка формату електронної пошти (можна використовувати більш складні перевірки за потребою)
+        # Simple check for the email format (more complex checks can be used as needed).
         return "@" in email and "." in email.split("@")[-1]
 
     def __str__(self):
@@ -93,15 +93,13 @@ class Email(Field):
 
 class Birthday(Field):
     """
-    Клас "Дні народження"
+    Class representing the "Birthday" field.
     """
     def __init__(self, birthday):
         self._birthday = None
         self.birthday = birthday
-
-    # form = '%Y-%m-%d'
-    form = '%d.%m.%Y'
         
+    form = '%d.%m.%Y'
 
     @property
     def birthday(self):
@@ -120,9 +118,9 @@ class Birthday(Field):
 
 class Record:
     """
-    Клас для зберігання інформації про контакт, включаючи ім'я та список телефонів.
-    Також містить список електронних адрес та адресу.
-    Відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
+    Class for storing information about a contact, including the name and a list of phones.
+    Also contains a list of email addresses and an address.
+    Responsible for the logic of adding/removing/editing optional fields and storing the mandatory Name field.
     """
     def __init__(self, name, birthday=None):
         self.name = Name(name)
@@ -131,22 +129,22 @@ class Record:
         self.address = None
         self.birthday = Birthday(birthday) if birthday else birthday
 
-    # Додавання телефонів
+    # Adding phone numbers
     def add_phone(self, phone_number):
         phone = phone_number
         self.phones.append(Phone(phone))
 
-    # Додавання електронної пошти
+    # Adding email addresses
     def add_email(self, email):
         self.emails.append(Email(email))
-        return self.emails[-1]  # Повертаємо останній елемент списку, що є об'єктом Email
+        return self.emails[-1]
 
-    # Додавання дня народження
+    # Adding birthday
     def add_birthday(self, bd):
         self.birthday = Birthday(bd)
         return self.birthday
 
-    # Повертає кількість днів до наступного дня народження
+    # Returns the number of days until the next birthday
     def days_to_bd(self):
         if not self.birthday:
             return "Birthday not set"
@@ -161,7 +159,7 @@ class Record:
 
         return f"{days_to_bdd} days before the birthday"
 
-    # Видалення телефонів
+    # Removes phone numbers
     def remove_phone(self, phone):
         for el in self.phones:
             if el.value == phone:
@@ -169,7 +167,7 @@ class Record:
                 return f"Phone {phone} has been deleted"
         return f"Phone {phone} is not found"
 
-    # Редагування телефонів
+    # Edits phone numbers
     def edit_phone(self, old_phone, new_phone):
         for ind, phone in enumerate(self.phones):
             if phone.value == old_phone:
@@ -177,7 +175,7 @@ class Record:
                 return f"Phone number has been updated for {self.name.name}"
         raise ValueError
 
-    # Видалення електронних адрес
+    # Removes email addresses
     def remove_email(self, email):
         for el in self.emails:
             if el.value == email:
@@ -185,7 +183,7 @@ class Record:
                 return f"Email {email} has been deleted"
         return f"Email {email} is not found"
 
-    # Редагування електронних адрес
+    # Edits email addresses
     def edit_email(self, old_email, new_email):
         for ind, email in enumerate(self.emails):
             if email.value == old_email:
@@ -193,14 +191,14 @@ class Record:
                 return f"Email address has been updated for {self.name.name}"
         raise ValueError
 
-    # Пошук телефону
+    # Finds phone number
     def find_phone(self, phone_to_find):
         for phone in self.phones:
             if phone.value == phone_to_find:
                 return phone
         return None
 
-    # Перетворює дані об'єкту у формат словника
+    # Converts object data to dictionary format
     def to_dict(self):
         return {
             "name": self.name.name,
@@ -221,7 +219,7 @@ class Record:
 
 class AddressBookIterator:
     """
-    Генератор за записами AddressBook і за одну ітерацію повертає уявлення для N записів.
+    Generator for records in AddressBook, returning representations for N records in one iteration
     """
     def __init__(self, address_book, per_page=10):
         self.address_book = address_book
@@ -249,30 +247,29 @@ class AddressBookIterator:
 
 class AddressBook(UserDict):
     """
-    Клас для зберігання та управління записами.
-    Успадковується від UserDict, та містить логіку пошуку за записами до цього класу
+    Class for storing and managing records.
+    Inherits from UserDict and contains logic for searching records within this class
     """
-
     def __init__(self):
         super().__init__()
         self.load_from_json("address_book.json")
 
-    # Додавання записів
+    # Adding records
     def add_record(self, record: Record):
         self.data[record.name.name] = record
 
-    # Пошук записів за іменем
+    # Search for records by name
     def find(self, name):
         return self.data.get(name, None)
 
-    # Видалення записів за іменем
+    # Delete records by name
     def delete(self, name):
         if name in self.data:
             self.data.pop(name)
             return f"{name} has been deleted from the AddressBook"
         return f"{name} is not in the AddressBook"
 
-    # Відновлення адресної книги з диска
+    # Restore the address book from disk
     def load_from_json(self, filename):
         try:
             with open(filename, "r") as file:
@@ -281,19 +278,15 @@ class AddressBook(UserDict):
                 for name, data in records_data.items():
                     record = Record(data["name"])
 
-                    # Завантаження телефонів
                     for phone_number in data["phones"]:
                         record.add_phone(phone_number)
 
-                    # Завантаження email  # NEW
                     for email_address in data["emails"]:
                         record.add_email(email_address)
 
-                    # Завантаження адреси  # NEW
                     if "address" in data:
                         record.address = data["address"]
 
-                    # Завантаження дня народження
                     if data["birthday"] != "not set":
                         record.add_birthday(data["birthday"])
 
@@ -302,16 +295,16 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             pass
 
-    # Збереження адресної книги на диск
+    # Save the address book to disk
     def save_to_json(self, filename):
         records_data = {name: record.to_dict() for name, record in self.data.items()}
         with open(filename, "w") as file:
             json.dump(records_data, file, indent=3)
 
-    # Здійснює пошук в адресній книзі за ім'ям користувача або номером телефону.
-    # Підтримує пошук за частиною імені або номеру телефону.
+    # Performs a search in the address book by the username or phone number.
+    # Supports partial search by name or phone number.
     def find_data_in_book(self, search_string):
-        found_users = set()  # Використовуємо множину для унікальних записів
+        found_users = set()
 
         for record in self.data.values():
             if search_string.lower() in record.name.name.lower():
@@ -333,7 +326,7 @@ class AddressBook(UserDict):
 
         return list(found_users)
 
-# Генерація рандомної дати народження
+# Generation of a random birthdate
 def generate_random_birthdate(start_date='1970-01-01', end_date='2000-12-31', date_format='%Y-%m-%d'):
     start_date = datetime.strptime(start_date, date_format)
     end_date = datetime.strptime(end_date, date_format)
@@ -345,11 +338,11 @@ def generate_random_birthdate(start_date='1970-01-01', end_date='2000-12-31', da
 
 
 if __name__ == "__main__":
-    # Створення нової адресної книги
-    # Якщо файл address_book.json існує, він автоматично буде завантажений
+    # Creating a new address book
+    # If the address_book.json file exists, it will be automatically loaded
     book = AddressBook()
 
-    # Додаємо запис в адресну книгу з рандомними іменем, номером телефону та датою народження
+    # Adding a record to the address book with random name, phone number, and birthdate
     user_number = random.randint(100, 999)
     data_record = Record(f'User-{user_number}')
     phone_number = ''.join(map(str, [random.randint(0, 9) for _ in range(10)]))
@@ -357,21 +350,14 @@ if __name__ == "__main__":
     data_record.add_birthday(generate_random_birthdate())
     book.add_record(data_record)
 
-    # # Пошук в адресній книзі по імені користувача
-    # print("Search by username:")
-    # book.find_data_in_book("John")
-    # # Пошук в адресній книзі по номеру телефона
-    # print("Search by phone number:")
-    # book.find_data_in_book("0987654321")
-
-    # Пошук в адресній книзі по частині імені користувача
+    # Searching in the address book by a partial username
     print("Search by partial username")
     book.find_data_in_book("Jo")
-    # Пошук в адресній книзі по частині номеру телефона
+    # Searching in the address book by a partial phone number
     print("Search by partial phone number")
     book.find_data_in_book("098765")
 
-    # Зберігаємо адресну книгу в файл
+    # Save the address book to a file
     book.save_to_json("address_book.json")
 
     print("Good bye!")
