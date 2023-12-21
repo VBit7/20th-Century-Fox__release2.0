@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from tkinter.simpledialog import askstring
 
 from src.classAddressBook import AddressBook, Record
 # from src import sorter
@@ -21,12 +22,8 @@ class MainApplication(tk.Tk):
         # Add labels
         label = tk.Label(self, text="ADDRESS BOOK MANAGEMENT:", font=("Calibri", 13))
         label.grid(row=0, column=0, columnspan=4, pady=10)
-        # label = tk.Label(self, text="OTHER ACTIONS:", font=("Calibri", 13))
-        # label.grid(row=9, column=0, columnspan=4, pady=10)
 
-        # Add buttons
         self.add_buttons()
-        # Add Treeview
         self.add_treeview()        
 
     def center_window(self):        
@@ -53,15 +50,15 @@ class MainApplication(tk.Tk):
 
         # For "Change". Button 2:
         btn_change_contact = tk.Button(self, text="Change", command=lambda: ChangeContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
-        btn_change_contact.grid(row=1, column=1, sticky="e", padx=PADX, pady=PADY)
+        btn_change_contact.grid(row=1, column=1, sticky="w", padx=PADX, pady=PADY)
 
         # For "Delete". Button 3:
         btn_delete_contact = tk.Button(self, text="Delete", command=lambda: DeleteWindow(self, address_book), width=WIDTH, height=HEIGHT)
-        btn_delete_contact.grid(row=1, column=2, sticky="e", padx=PADX, pady=PADY)
+        btn_delete_contact.grid(row=1, column=2, sticky="w", padx=PADX, pady=PADY)
 
         # For Other. "Sorting Files". Button 4:
         btn_sorting_files = tk.Button(self, text="Sorting files", command=self.show_sorting_files_window, width=WIDTH, height=HEIGHT)
-        btn_sorting_files.grid(row=1, column=3, sticky="e", padx=PADX, pady=PADY)
+        btn_sorting_files.grid(row=1, column=4, sticky="e", padx=PADX + 40, pady=PADY)
         
 
     def add_treeview(self):
@@ -80,9 +77,8 @@ class MainApplication(tk.Tk):
             tree.heading(col, text=info["text"])
             tree.column(col, width=info["width"])
 
-        tree.grid(row=2, column=0, columnspan=4, padx=10, pady=10)
+        tree.grid(row=2, column=0, columnspan=5, padx=10, pady=10)
         tree.config(height=20)
-
 
         # Add search entry and button
         label = tk.Label(self, text="Enter search string:")
@@ -94,17 +90,6 @@ class MainApplication(tk.Tk):
 
         btn_search = tk.Button(self, text="Search", command=lambda: self.search_contacts(tree, search_var.get()), width=16, height=1)
         btn_search.grid(row=3, column=2, padx=10, pady=5, sticky=tk.W)
-
-
-
-        # search_var = tk.StringVar()
-        # search_entry = tk.Entry(self, textvariable=search_var, width=40, )
-        # search_entry.grid(row=4, column=1, padx=10, pady=5, sticky=tk.W)
-
-        # search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
-        # search_button.grid(row=5, column=0, columnspan=2, pady=5)
-
-
 
 
     def search_contacts(self, tree, search_string):
@@ -241,9 +226,6 @@ class AddContactWindow(tk.Toplevel):
             # Get notes from the Text widget
             notes = self.notes_text.get("1.0", tk.END).strip()
 
-            # Додаємо поле нотаток до об'єкту контакту
-            # new_record.add_notes(notes)
-
             if existing_record:
                 # If the name exists, add phone, email, address, and birthday (if provided)
                 if phone:
@@ -273,126 +255,24 @@ class AddContactWindow(tk.Toplevel):
             # Save the changes and close the window
             self.address_book.save_to_json("address_book.json")
             messagebox.showinfo("Contact added", f"Contact name: {name}\nPhone number: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {birthday}")
-            self.destroy()
+            # self.destroy()
+
+        # except ValueError as e:
+        #     messagebox.showerror("Error", str(e))
         except ValueError as e:
+            # Show error message and allow the user to fix the input
+            # correction = askstring("Error", f"{e}\n\nPlease correct the input:")
+            # if correction is not None:
+            #     # Handle the corrected input (e.g., update the corresponding variable)
+            #     # Then, you may want to retry the operation or ask for further corrections.
+            #     pass
+            self.grab_set()
             messagebox.showerror("Error", str(e))
-
-
-
-# class SearchContactWindow(tk.Toplevel):
-#     def __init__(self, parent, address_book):
-#         super().__init__(parent)
-#         self.title("Search Contact")
-#         self.iconbitmap('./img/icon.ico')
-
-#         # Setting the window position to the center of the screen
-#         window_width = 1350  #1075
-#         window_height = 320
-#         screen_width = self.winfo_screenwidth()
-#         screen_height = self.winfo_screenheight()
-#         x = (screen_width - window_width) // 2
-#         y = (screen_height - window_height) // 2
-#         self.geometry(f"{window_width}x{window_height}+{x}+{y}")
-
-
-#         self.address_book = address_book
-
-#         self.tree = ttk.Treeview(self)
-#         self.tree["columns"] = ("Name", "Phone", "Email", "Address", "Birthday", "Notes")
-#         self.tree.heading("#0", text="ID")
-#         self.tree.column("#0", width=50)
-#         self.tree.heading("Name", text="Name")
-#         self.tree.heading("Phone", text="Phone")
-#         self.tree.heading("Email", text="Email")
-#         self.tree.heading("Address", text="Address")
-#         self.tree.heading("Birthday", text="Birthday")
-#         self.tree.heading("Notes", text="Notes")
-#         self.tree.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
-
-#         self.label = tk.Label(self, text="Enter search string:")
-#         self.label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
-
-#         self.search_var = tk.StringVar()
-#         self.search_entry = tk.Entry(self, textvariable=self.search_var, width=40, )
-#         self.search_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
-
-#         self.search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
-#         self.search_button.grid(row=2, column=0, columnspan=2, pady=5)
-
-#     def search_contacts(self):
-#     # Clear Treeview content before a new search
-#         self.tree.delete(*self.tree.get_children())
-
-#         search_string = self.search_var.get()
-
-#         found_contacts = self.address_book.find_data_in_book(search_string)
-
-#         # Display found contacts in Treeview
-#         if found_contacts:
-#             for record in found_contacts:
-#                 record_data = {
-#                     "Name": record.name.name,
-#                     "Phone": ", ".join(phone.value for phone in record.phones),
-#                     "Email": ", ".join(email.value for email in record.emails),
-#                     "Address": record.address if record.address else "N/A",
-#                     "Birthday": str(record.birthday) if record.birthday else "N/A",
-#                     "Notes": record.notes if record.notes else "N/A",
-#                 }
-#                 self.tree.insert("", "end", text="ID", values=(record_data["Name"], record_data["Phone"],
-#                                                                 record_data["Email"], record_data["Address"],
-#                                                                 record_data["Birthday"], record_data["Notes"]))
-#         else:
-#             # If no records are found, print a message
-#             print("No results found")
-
-
-# --- For Show ---
-# class ContactTableWindow(tk.Toplevel):
-#     def __init__(self, search_contact_window, contact_data, *args, **kwargs):
-#         tk.Toplevel.__init__(self, search_contact_window, *args, **kwargs)
-#         self.title("Contact Information")
-#         self.iconbitmap('./img/icon.ico')
-#         self.width = 1350
-#         self.height = 300
-#         self.geometry(f"{self.width}x{self.height}")
-#         self.center_window()
-
-#         columns_info = {
-#             "user": {"text": "User", "width": 50},
-#             "phones": {"text": "Phones", "width": 50},
-#             "emails": {"text": "Emails", "width": 100},
-#             "address": {"text": "Address", "width": 200},
-#             "birthday": {"text": "Birthday", "width": 150},
-#             "notes": {"text": "Notes", "width": 200}
-#         }
-
-#         tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
-
-#         for col, info in columns_info.items():
-#             tree.heading(col, text=info["text"])
-#             tree.column(col, width=info["width"], stretch=tk.NO)
-
-#         # Adding data to the table
-#         tree.insert("", "end", values=(contact_data["user"], ", ".join(contact_data["phones"]),
-#                                        ", ".join(contact_data["emails"]), contact_data["address"],
-#                                        contact_data["birthday"], contact_data["notes"]))
-
-
-#         tree.pack(padx=10, pady=10)
-
-#     def center_window(self):
-#         self.update_idletasks()
-#         window_width = self.winfo_width()
-#         window_height = self.winfo_height()
-#         screen_width = self.winfo_screenwidth()
-#         screen_height = self.winfo_screenheight()
-
-#         x = (screen_width - window_width) // 2
-#         y = (screen_height - window_height) // 2
-
-#         self.geometry(f'+{x}+{y}')
-
-
+            self.grab_release()
+        else:
+            self.address_book.save_to_json("address_book.json")
+            messagebox.showinfo("Contact added", f"Contact name: {name}\nPhone number: {phone}\nEmail: {email}\nAddress: {address}\nBirthday: {birthday}")
+            self.destroy()
 
 
 class ChangeContactWindow(tk.Toplevel):
@@ -890,51 +770,6 @@ class SortingFilesWindow(tk.Toplevel):
         
         messagebox.showinfo("Information", f"Sorting files in a directory: {path_s}")
         self.destroy()
-
-
-
-
-
-# class NoteTableWindow(tk.Toplevel):
-#     def __init__(self, search_note_window, note_data, *args, **kwargs):
-#         tk.Toplevel.__init__(self, search_note_window, *args, **kwargs)
-#         self.title("Note Information")
-#         self.iconbitmap('./img/icon.ico')
-#         self.width = 750
-#         self.height = 300
-#         self.geometry(f"{self.width}x{self.height}")
-#         self.center_window()
-
-#         columns_info = {
-#             "user": {"text": "User", "width": 150},
-#             "note": {"text": "Notes", "width": 400},
-#             "tags": {"text": "Tags", "width": 200},
-#         }
-
-#         tree = ttk.Treeview(self, columns=list(columns_info.keys()), show="headings")
-
-#         for col, info in columns_info.items():
-#             tree.heading(col, text=info["text"])
-#             tree.column(col, width=info["width"])
-
-#         # Adding data to the table
-#         tree.insert("", "end", values=(note_data["user"], note_data["note"],
-#                                        ", ".join(note_data["tags"])))
-
-#         tree.pack(padx=10, pady=10)
-
-#     def center_window(self):
-#         self.update_idletasks()
-#         window_width = self.winfo_width()
-#         window_height = self.winfo_height()
-#         screen_width = self.winfo_screenwidth()
-#         screen_height = self.winfo_screenheight()
-
-#         x = (screen_width - window_width) // 2
-#         y = (screen_height - window_height) // 2
-
-#         self.geometry(f'+{x}+{y}')
-
 
 
 address_book = AddressBook()
