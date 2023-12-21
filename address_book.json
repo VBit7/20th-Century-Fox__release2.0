@@ -23,11 +23,29 @@
    "User": {
       "name": "User",
       "phones": [
-         "1234567890",
-         "0001112222"
+         "1234567890"
       ],
       "emails": [],
       "address": "Anywhere",
       "birthday": "01.01.2001"
+   },
+   "NewUser-2": {
+      "name": "NewUser-2",
+      "phones": [
+         "1112222222",
+         "2223334444"
+      ],
+      "emails": [],
+      "address": "not set",
+      "birthday": "not set"
+   },
+   "NewUser-777": {
+      "name": "NewUser-777",
+      "phones": [],
+      "emails": [
+         "a1@a.a"
+      ],
+      "address": "City",
+      "birthday": "not set"
    }
 }
