@@ -1,8 +1,3 @@
-"""
-Homework Assignment. Python Core. Module 12
-For a description of the task, please refer to the README.md file
-"""
-
 from datetime import datetime, timedelta
 from collections import UserDict
 
@@ -278,25 +273,6 @@ class AddressBook(UserDict):
         return f"{name} is not in the AddressBook"
 
     # Відновлення адресної книги з диска
-    # def load_from_json(self, filename):
-    #     try:
-    #         with open(filename, "r") as file:
-    #             records_data = json.load(file)
-
-    #             for name, data in records_data.items():
-    #                 record = Record(data["name"])
-    #                 lenght = range(len(data["phones"]))
-
-    #                 for i in lenght:
-    #                     record.add_phone(data["phones"][i])
-
-    #                 if data["birthday"] != "not set":
-    #                     record.add_birthday(data["birthday"])
-
-    #                 self.data[name] = record
-
-    #     except FileNotFoundError:
-    #         pass
     def load_from_json(self, filename):
         try:
             with open(filename, "r") as file:
@@ -309,11 +285,11 @@ class AddressBook(UserDict):
                     for phone_number in data["phones"]:
                         record.add_phone(phone_number)
 
-                    # Завантаження email
+                    # Завантаження email  # NEW
                     for email_address in data["emails"]:
                         record.add_email(email_address)
 
-                    # Завантаження адреси
+                    # Завантаження адреси  # NEW
                     if "address" in data:
                         record.address = data["address"]
 
@@ -326,7 +302,6 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             pass
 
-
     # Збереження адресної книги на диск
     def save_to_json(self, filename):
         records_data = {name: record.to_dict() for name, record in self.data.items()}
@@ -335,25 +310,6 @@ class AddressBook(UserDict):
 
     # Здійснює пошук в адресній книзі за ім'ям користувача або номером телефону.
     # Підтримує пошук за частиною імені або номеру телефону.
-    # def find_data_in_book(self, search_string):
-    #     found_users = []
-
-    #     for record in self.data.values():
-    #         if search_string in record.name.name:
-    #             found_users.append(record)
-
-    #         for phone in record.phones:
-    #             if search_string in phone.value:
-    #                 found_users.append(record)
-
-    #     if found_users:
-    #         print("Found users:\n")
-    #         for record in found_users:
-    #             print(f"Name: {record.name.name}")
-    #             print(f"Phones: {', '.join(phone.value for phone in record.phones)}")
-    #             print(f"Birthday: {record.birthday}\n")
-    #     else:
-    #         print("This data is not found.")
     def find_data_in_book(self, search_string):
         found_users = set()  # Використовуємо множину для унікальних записів
 

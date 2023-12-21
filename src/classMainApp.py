@@ -82,7 +82,8 @@ class MainApplication(tk.Tk):
         # btn_search_birthday.grid(row=5, column=1, sticky="e", padx=PADX, pady=PADY)
 
         # For "Change" Contacts. Group 3:
-        btn_change_contact = tk.Button(self, text="Change contact", command=self.show_change_contact_window, width=WIDTH, height=HEIGHT)
+        # btn_change_contact = tk.Button(self, text="Change contact", command=self.show_change_contact_window, width=WIDTH, height=HEIGHT)
+        btn_change_contact = tk.Button(self, text="Change contact", command=lambda: ChangeContactWindow(self, address_book), width=WIDTH, height=HEIGHT)
         # btn_change_phone = tk.Button(self, text="Change phone", command=self.show_change_phone_window, width=WIDTH, height=HEIGHT)
         # btn_change_email = tk.Button(self, text="Change email", command=self.show_change_email_window, width=WIDTH, height=HEIGHT)
         # btn_change_address = tk.Button(self, text="Change address", command=self.show_change_address_window, width=WIDTH, height=HEIGHT)
@@ -635,6 +636,18 @@ class SearchContactWindow(tk.Toplevel):
     def __init__(self, parent, address_book):
         super().__init__(parent)
         self.title("Search Contact")
+        self.iconbitmap('./img/icon.ico')
+
+        # Setting the window position to the center of the screen
+        window_width = 1075
+        window_height = 320
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+
         self.address_book = address_book
 
         self.tree = ttk.Treeview(self)
@@ -652,10 +665,10 @@ class SearchContactWindow(tk.Toplevel):
         self.label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
 
         self.search_var = tk.StringVar()
-        self.search_entry = tk.Entry(self, textvariable=self.search_var)
+        self.search_entry = tk.Entry(self, textvariable=self.search_var, width=40, )
         self.search_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
 
-        self.search_button = tk.Button(self, text="Search", command=self.search_contacts)
+        self.search_button = tk.Button(self, text="Search", command=self.search_contacts, width=16)
         self.search_button.grid(row=2, column=0, columnspan=2, pady=5)
 
     def search_contacts(self):
@@ -685,143 +698,175 @@ class SearchContactWindow(tk.Toplevel):
             print("No results found")
 
 
-# class SearchContactWindow(tk.Toplevel):
-#     def __init__(self, main_app, *args, **kwargs):
-#         tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
-#         self.title("Search Contact")
-#         self.iconbitmap('./img/icon.ico')
-
-#         self.user_var = tk.StringVar()
-#         self.phone_var = tk.StringVar()
-#         self.email_var = tk.StringVar()
-#         self.address_var = tk.StringVar()
-#         self.date_var = tk.StringVar()
-
-#         # Text input fields
-#         user_label = tk.Label(self, text="User Name:")
-#         user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
-
-#         phone_label = tk.Label(self, text="Phone:")
-#         phone_entry = tk.Entry(self, width=30, textvariable=self.phone_var)
-
-#         email_label = tk.Label(self, text="Email:")
-#         email_entry = tk.Entry(self, width=30, textvariable=self.email_var)
-
-#         address_label = tk.Label(self, text="Address:")
-#         address_entry = tk.Entry(self, width=30, textvariable=self.address_var)
-
-#         # Date entry field
-#         date_label = tk.Label(self, text="Birthday:")
-#         date_entry = tk.Entry(self, width=30, textvariable=self.date_var)
-
-#         # Placing widgets on a window
-#         user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-#         user_entry.grid(row=0, column=1, padx=10, pady=5)
-
-#         phone_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-#         phone_entry.grid(row=1, column=1, padx=10, pady=5)
-
-#         email_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
-#         email_entry.grid(row=2, column=1, padx=10, pady=5)
-
-#         address_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
-#         address_entry.grid(row=3, column=1, padx=10, pady=5)
-
-#         date_label.grid(row=4, column=0, padx=10, pady=5, sticky="w")
-#         date_entry.grid(row=4, column=1, padx=10, pady=5)
-
-#         # Buttons "Search" and "Cancel"
-#         save_button = tk.Button(self, text="Search", command=self.show_contact_table, width=10, height=1)
-#         cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-
-#         save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-#         cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
-
-#     def center_window(self):
-#         self.update_idletasks()
-#         window_width = self.winfo_width()
-#         window_height = self.winfo_height()
-#         screen_width = self.winfo_screenwidth()
-#         screen_height = self.winfo_screenheight()
-
-#         x = (screen_width - window_width) // 2
-#         y = (screen_height - window_height) // 2
-
-#         self.geometry(f'+{x}+{y}')
-
-#     def show_contact_table(self):
-#         user = self.user_var.get()
-#         phone = self.phone_var.get()
-#         email = self.email_var.get()
-#         address = self.address_var.get()
-#         date = self.date_var.get()
-
-#         # <--  Here, the logic for "Search Contact"
-        
-#         contact_data = {
-#             "user": user,
-#             "phones": ["123456789", "987654321"],
-#             "emails": ["user@example.com"],
-#             "address": "123 Main St",
-#             "birthday": "01/01/2000"
-#         }
-
-#         ContactTableWindow(self, contact_data)
-
-
-
 class ChangeContactWindow(tk.Toplevel):
-    def __init__(self, main_app, *args, **kwargs):
-        tk.Toplevel.__init__(self, main_app, *args, **kwargs)
-
+    def __init__(self, parent, address_book):
+        super().__init__(parent)
         self.title("Change Contact")
         self.iconbitmap('./img/icon.ico')
 
-        self.user_var = tk.StringVar()
-        self.new_user_var = tk.StringVar()
-
-        # Text input fields
-        user_label = tk.Label(self, text="User Name:")
-        user_entry = tk.Entry(self, width=30, textvariable=self.user_var)
-
-        new_user_label = tk.Label(self, text="New User Name:")
-        new_user_entry = tk.Entry(self, width=30, textvariable=self.new_user_var)
-
-        # Placing widgets on a window
-        user_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        user_entry.grid(row=0, column=1, padx=10, pady=5)
-
-        new_user_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        new_user_entry.grid(row=1, column=1, padx=10, pady=5)
-
-        # Buttons "Save" and "Cancel"
-        save_button = tk.Button(self, text="Save", command=self.change_contact, width=10, height=1)
-        cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-
-        save_button.grid(row=5, column=0, sticky="e", padx=30, pady=10)
-        cancel_button.grid(row=5, column=1, sticky="e", padx=30, pady=10)
-
-    def center_window(self):
-        self.update_idletasks()
-        window_width = self.winfo_width()
-        window_height = self.winfo_height()
+        # Setting the window position to the center of the screen
+        window_width = 400
+        window_height = 300
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        self.geometry(f'+{x}+{y}')
+        self.address_book = address_book
 
-    def change_contact(self):
-        user = self.user_var.get()
-        new_user = self.new_user_var.get()
+        # Combo for selecting an existing contact
+        self.select_contact_label = tk.Label(self, text="Select Contact:")
+        self.select_contact_label.grid(row=0, column=0, padx=10, pady=5, sticky=tk.E)
 
-        # <--  Here, the logic for "Change Contact"
-        
-        messagebox.showinfo("Contact Information", f"User: {user}\nNew User: {new_user}\n")
-        self.destroy()
+        existing_contacts = list(self.address_book.data.keys())
+        self.selected_contact_var = tk.StringVar()
+        self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=30)
+        self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Text field for entering the new contact name
+        self.new_name_label = tk.Label(self, text="New Name:")
+        self.new_name_label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.new_name_var = tk.StringVar()
+        self.new_name_entry = tk.Entry(self, textvariable=self.new_name_var, width=30)
+        self.new_name_entry.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Combo for selecting an existing phone number
+        self.select_phone_label = tk.Label(self, text="Select Phone:")
+        self.select_phone_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.selected_phone_var = tk.StringVar()
+        self.phone_combobox = ttk.Combobox(self, textvariable=self.selected_phone_var, values=[], width=30)
+        self.phone_combobox.grid(row=2, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Text field for entering the new phone number
+        self.new_phone_label = tk.Label(self, text="New Phone:")
+        self.new_phone_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.new_phone_var = tk.StringVar()
+        self.new_phone_entry = tk.Entry(self, textvariable=self.new_phone_var, width=30)
+        self.new_phone_entry.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Combo for selecting an existing email
+        self.select_email_label = tk.Label(self, text="Select Email:")
+        self.select_email_label.grid(row=4, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.selected_email_var = tk.StringVar()
+        self.email_combobox = ttk.Combobox(self, textvariable=self.selected_email_var, values=[], width=30)
+        self.email_combobox.grid(row=4, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Text field for entering the new email
+        self.new_email_label = tk.Label(self, text="New Email:")
+        self.new_email_label.grid(row=5, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.new_email_var = tk.StringVar()
+        self.new_email_entry = tk.Entry(self, textvariable=self.new_email_var, width=30)
+        self.new_email_entry.grid(row=5, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Text field for entering the new address
+        self.new_address_label = tk.Label(self, text="New Address:")
+        self.new_address_label.grid(row=6, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.new_address_var = tk.StringVar()
+        self.new_address_entry = tk.Entry(self, textvariable=self.new_address_var, width=30)
+        self.new_address_entry.grid(row=6, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Text field for entering the new birthday
+        self.new_birthday_label = tk.Label(self, text="New Birthday:")
+        self.new_birthday_label.grid(row=7, column=0, padx=10, pady=5, sticky=tk.E)
+
+        self.new_birthday_var = tk.StringVar()
+        self.new_birthday_entry = tk.Entry(self, textvariable=self.new_birthday_var, width=30)
+        self.new_birthday_entry.grid(row=7, column=1, padx=10, pady=5, sticky=tk.W)
+
+        # Buttons to save changes or cancel
+        self.save_button = tk.Button(self, text="Save Changes", command=self.save_changes, width=15, height=1)
+        self.save_button.grid(row=8, column=0, padx=10, pady=10, sticky=tk.W)
+
+        self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=15, height=1)
+        self.cancel_button.grid(row=8, column=1, padx=10, pady=10, sticky=tk.E)
+
+        # Bind the event to update phone numbers based on the selected contact
+        self.contact_combobox.bind("<<ComboboxSelected>>", self.update_contact_details)
+
+        # Initialize details for the first contact in the list (if available)
+        if existing_contacts:
+            first_contact = existing_contacts[0]
+            self.selected_contact_var.set(first_contact)
+            self.update_contact_details()
+
+    def update_contact_details(self, event=None):
+        selected_contact = self.selected_contact_var.get()
+        if selected_contact:
+            contact = self.address_book.find(selected_contact)
+            if contact:
+                # Update phone numbers
+                phone_numbers = [str(phone) for phone in contact.phones]
+                self.phone_combobox['values'] = phone_numbers
+                if phone_numbers:
+                    self.selected_phone_var.set(phone_numbers[0])
+                else:
+                    self.selected_phone_var.set("")
+
+                # Update emails
+                emails = [str(email) for email in contact.emails]
+                self.email_combobox['values'] = emails
+                if emails:
+                    self.selected_email_var.set(emails[0])
+                else:
+                    self.selected_email_var.set("")
+
+                # Update address
+                self.new_address_var.set(contact.address if contact.address else "")
+
+                # Update birthday
+                self.new_birthday_var.set(str(contact.birthday) if contact.birthday else "")
+
+    def save_changes(self):
+        selected_contact = self.selected_contact_var.get()
+        new_name = self.new_name_var.get()
+        selected_phone = self.selected_phone_var.get()
+        new_phone = self.new_phone_var.get()
+        selected_email = self.selected_email_var.get()
+        new_email = self.new_email_var.get()
+        new_address = self.new_address_var.get()
+        new_birthday = self.new_birthday_var.get()
+
+        contact = self.address_book.find(selected_contact)
+        if contact:
+            # Remove the old contact from the address book
+            self.address_book.delete(selected_contact)
+
+            # Update the contact name if a new name is provided
+            if new_name:
+                contact.name.name = new_name
+
+            # Update the phone number if a new phone number is provided
+            if selected_phone and new_phone:
+                contact.edit_phone(selected_phone, new_phone)
+
+            # Update the email if a new email is provided
+            if selected_email and new_email:
+                contact.edit_email(selected_email, new_email)
+
+            # Update the address if a new address is provided
+            contact.address = new_address
+
+            # Update the birthday if a new birthday is provided
+            if new_birthday:
+                contact.add_birthday(new_birthday)
+
+            # Add the updated contact back to the address book
+            self.address_book.add_record(contact)
+
+            # Save changes to the address book
+            self.address_book.save_to_json("address_book.json")
+
+            # Close the window
+            self.destroy()
+        else:
+            messagebox.showerror("Error", "Selected contact not found")
 
 
 class ChangePhoneWindow(tk.Toplevel):
