@@ -150,7 +150,7 @@ class AddContactWindow(tk.Toplevel):
 
         # Setting the window position to the center of the screen
         window_width = 350
-        window_height = 300
+        window_height = 340
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
         x = (screen_width - window_width) // 2
@@ -205,12 +205,16 @@ class AddContactWindow(tk.Toplevel):
         self.notes_text.grid(row=5, column=1, padx=10, pady=5, sticky=tk.W)
 
 
+        self.notes_label = tk.Label(self, text="Note: You can add tags by prefixing them with the '#'", font=("Helvetica", 7))
+        self.notes_label.grid(row=6, column=1, padx=10, pady=5) #, font=("Calibri", 8))
+
+
         self.add_button = tk.Button(self, text="Save", command=self.add_contact, width=10, height=1)
-        self.add_button.grid(row=6, column=0, padx=30, pady=10, sticky=tk.W)
+        self.add_button.grid(row=7, column=0, padx=30, pady=10, sticky=tk.W)
         self.cancel_button = tk.Button(self, text="Cancel", command=self.destroy, width=10, height=1)
-        self.cancel_button.grid(row=6, column=1, padx=30, pady=10, sticky=tk.E)
+        self.cancel_button.grid(row=7, column=1, padx=30, pady=10, sticky=tk.E)
         # To horizontally align the buttons
-        self.add_button.grid(row=6, column=0, padx=30, pady=10, sticky=tk.W, columnspan=2)
+        self.add_button.grid(row=7, column=0, padx=30, pady=10, sticky=tk.W, columnspan=2)
     
     def center_window(self):
         self.update_idletasks()
