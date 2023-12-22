@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, simpledialog
 from tkinter.simpledialog import askstring
 
 from src.classAddressBook import AddressBook, Record
@@ -39,7 +39,7 @@ class MainApplication(tk.Tk):
         self.geometry(f'+{x}+{y}')
 
     def add_buttons(self):
-        PADX = 40
+        PADX = 10
         PADY = 5
         WIDTH = 16
         HEIGHT = 2
@@ -56,9 +56,17 @@ class MainApplication(tk.Tk):
         btn_delete_contact = tk.Button(self, text="Delete", command=lambda: DeleteWindow(self, address_book), width=WIDTH, height=HEIGHT)
         btn_delete_contact.grid(row=1, column=2, sticky="w", padx=PADX, pady=PADY)
 
-        # For Other. "Sorting Files". Button 4:
+        # Add an empty label as a spacer between the two groups of buttons
+        spacer_label = tk.Label(self, text="", width=WIDTH, height=HEIGHT)
+        spacer_label.grid(row=1, column=3, padx=PADX, pady=PADY)
+
+        # For "Birthday Contacts".  Button 4:
+        btn_birthday_contacts = tk.Button(self, text="Birthday Contacts", command=self.show_birthday_contacts, width=WIDTH, height=HEIGHT)
+        btn_birthday_contacts.grid(row=1, column=4, sticky="w", padx=PADX, pady=PADY)
+
+        # For Other. "Sorting Files". Button 5:
         btn_sorting_files = tk.Button(self, text="Sorting files", command=self.show_sorting_files_window, width=WIDTH, height=HEIGHT)
-        btn_sorting_files.grid(row=1, column=4, sticky="e", padx=PADX + 40, pady=PADY)
+        btn_sorting_files.grid(row=1, column=5, sticky="w", padx=PADX, pady=PADY)
         
 
     def add_treeview(self):
@@ -77,7 +85,7 @@ class MainApplication(tk.Tk):
             tree.heading(col, text=info["text"])
             tree.column(col, width=info["width"])
 
-        tree.grid(row=2, column=0, columnspan=5, padx=10, pady=10)
+        tree.grid(row=2, column=0, columnspan=6, padx=10, pady=10)
         tree.config(height=20)
 
         # Add search entry and button
@@ -117,6 +125,15 @@ class MainApplication(tk.Tk):
             # Якщо не знайдено жодного запису, вивести повідомлення
             print("No results found")
 
+    def show_birthday_contacts(self):
+        days = simpledialog.askinteger("Input", "Enter the number of days:")
+        if days is not None:
+            birthday_contacts = self.address_book.filter_contacts_by_birthday(days)
+            if birthday_contacts:
+                message = "\n".join(f"{contact.name.name}: {contact.birthday}" for contact in birthday_contacts)
+                messagebox.showinfo("Birthday Contacts", message)
+            else:
+                messagebox.showinfo("Birthday Contacts", "No contacts with birthdays in the specified period")
 
     # Other - "Sorting files"
     def show_sorting_files_window(self):

@@ -301,6 +301,22 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             pass
 
+    def filter_contacts_by_birthday(self, days):
+        now = datetime.now()
+
+        def is_birthday_soon(contact):
+            if not contact.birthday:
+                return False
+
+            bd = contact.birthday.birthday.replace(year=now.year)
+            if bd < now:
+                bd = bd.replace(year=now.year + 1)
+
+            days_to_bdd = (bd.date() - now.date()).days
+            return 0 <= days_to_bdd <= days
+
+        return list(filter(is_birthday_soon, self.data.values()))
+
     # Save the address book to disk
     def save_to_json(self, filename):
         records_data = {name: record.to_dict() for name, record in self.data.items()}
