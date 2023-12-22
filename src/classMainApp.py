@@ -518,6 +518,7 @@ class DeleteContactWindow(tk.Toplevel):
         existing_contacts = list(self.address_book.data.keys())
         self.selected_contact_var = tk.StringVar()
         self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=20)
+        self.contact_combobox.state(['readonly'])
         self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
 
         # Button to delete contact or cancel
@@ -576,6 +577,7 @@ class DeletePhoneWindow(tk.Toplevel):
         existing_contacts = list(self.address_book.data.keys())
         self.selected_contact_var = tk.StringVar()
         self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=20)
+        self.contact_combobox.state(['readonly'])
         self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
 
         # Combo for selecting an existing phone number
@@ -584,6 +586,7 @@ class DeletePhoneWindow(tk.Toplevel):
 
         self.selected_phone_var = tk.StringVar()
         self.phone_combobox = ttk.Combobox(self, textvariable=self.selected_phone_var, values=[], width=20)
+        self.phone_combobox.state(['readonly'])
         self.phone_combobox.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
 
         # Buttons to delete phone or cancel
@@ -660,6 +663,7 @@ class DeleteEmailWindow(tk.Toplevel):
         existing_contacts = list(self.address_book.data.keys())
         self.selected_contact_var = tk.StringVar()
         self.contact_combobox = ttk.Combobox(self, textvariable=self.selected_contact_var, values=existing_contacts, width=20)
+        self.contact_combobox.state(['readonly'])
         self.contact_combobox.grid(row=0, column=1, padx=10, pady=5, sticky=tk.W)
 
         # Combo for selecting an existing email
@@ -668,6 +672,7 @@ class DeleteEmailWindow(tk.Toplevel):
 
         self.selected_email_var = tk.StringVar()
         self.email_combobox = ttk.Combobox(self, textvariable=self.selected_email_var, values=[], width=20)
+        self.email_combobox.state(['readonly'])
         self.email_combobox.grid(row=1, column=1, padx=10, pady=5, sticky=tk.W)
 
         # Buttons to delete email or cancel
