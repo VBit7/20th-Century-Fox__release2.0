@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
-from tkinter.simpledialog import askstring
+# from tkinter.simpledialog import askstring
 
 from src.classAddressBook import AddressBook, Record
-# from src import sorter
+from src.sorter import *
 
 
 class MainApplication(tk.Tk):
@@ -785,9 +785,9 @@ class SortingFilesWindow(tk.Toplevel):
     def sorting_files(self):
         path_s = self.path_var.get()
         
-        # sorter.main(f'sort {path_s}')
         # <--  Here, the logic for "Sorting Files"
-        
+        main(f'sort {path_s}')
+
         messagebox.showinfo("Information", f"Sorting files in a directory: {path_s}")
         self.destroy()
 
